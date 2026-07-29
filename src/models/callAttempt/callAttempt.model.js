@@ -3,7 +3,7 @@
  *
  * Tracks individual call attempts made by the call automation system.
  * Each record represents one call from a caller SIM to a target SIM,
- * with the resulting status (connected, rejected, switched_off, unreachable, unknown).
+ * with the resulting status (connected, rejected, switched_off, unreachable, unknown, max_retries_exceeded).
  */
 
 const mongoose = require('mongoose');
@@ -44,7 +44,7 @@ const CallAttemptSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['connected', 'rejected', 'switched_off', 'unreachable', 'unknown'],
+    enum: ['connected', 'rejected', 'switched_off', 'unreachable', 'unknown', 'max_retries_exceeded'],
     default: 'unknown',
   },
   callDuration: {

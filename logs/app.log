@@ -1726,3 +1726,103 @@
 [2026-07-29T08:10:00.945Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
 [2026-07-29T08:10:02.930Z] INFO: [WIFI ALERT] All checks completed {"checked":0,"skipped":3,"alertsCreated":0,"alertsUpdated":0,"alertsResolved":0,"emailsSent":0,"emailErrors":[],"errors":[],"offlineAlertsCreated":0,"wifiOffAlertsCreated":0,"disconnectedAlertsCreated":0,"notificationsCreated":0}
 [2026-07-29T08:10:02.931Z] INFO: WiFi alert check job completed
+[2026-07-29T08:13:47.843Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"hasPass":true,"hasFrom":true,"hasApiKey":false,"apiProvider":null,"bypassEmail":false}
+[2026-07-29T08:13:47.876Z] INFO: Email service initialized successfully (SMTP) {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-07-29T08:13:49.707Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"hasPass":true,"hasFrom":true,"hasApiKey":false,"apiProvider":null,"bypassEmail":false}
+[2026-07-29T08:13:49.717Z] INFO: Email service initialized successfully (SMTP) {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-07-29T08:13:52.253Z] INFO: [WhatsApp] Twilio client initialized successfully
+[2026-07-29T08:13:52.268Z] INFO: [Telegram] Bot token configured, service ready
+[2026-07-29T08:13:55.049Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-07-29T08:13:57.928Z] INFO: Initializing cron jobs...
+[2026-07-29T08:13:57.998Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-07-29T08:13:58.000Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-07-29T08:13:58.003Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-07-29T08:13:58.006Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-07-29T08:13:58.010Z] INFO: Job whatsapp-inactive-check scheduled: */5 * * * *
+[2026-07-29T08:13:58.013Z] INFO: Job telegram-inactive-check scheduled: */5 * * * *
+[2026-07-29T08:13:58.017Z] INFO: Job wifi-alert-check scheduled: */20 * * * *
+[2026-07-29T08:13:58.021Z] INFO: Job wifi-metrics-cleanup scheduled: 0 3 * * 0
+[2026-07-29T08:13:58.023Z] INFO: Job report-delivery scheduled: * * * * *
+[2026-07-29T08:13:58.025Z] INFO: All cron jobs initialized
+[2026-07-29T08:15:00.543Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T08:15:00.771Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T08:15:00.780Z] INFO: Starting Telegram inactive check job
+[2026-07-29T08:15:00.782Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T08:15:00.847Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T08:15:00.848Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T08:15:00.856Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T08:15:00.857Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T08:16:13.789Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"hasPass":true,"hasFrom":true,"hasApiKey":false,"apiProvider":null,"bypassEmail":false}
+[2026-07-29T08:16:13.800Z] INFO: Email service initialized successfully (SMTP) {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-07-29T08:16:15.817Z] INFO: [WhatsApp] Twilio client initialized successfully
+[2026-07-29T08:16:15.832Z] INFO: [Telegram] Bot token configured, service ready
+[2026-07-29T08:16:20.048Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"hasPass":true,"hasFrom":true,"hasApiKey":false,"apiProvider":null,"bypassEmail":false}
+[2026-07-29T08:16:20.058Z] INFO: Email service initialized successfully (SMTP) {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-07-29T08:16:20.835Z] INFO: [WhatsApp] Twilio client initialized successfully
+[2026-07-29T08:16:20.846Z] INFO: [Telegram] Bot token configured, service ready
+[2026-07-29T08:16:23.320Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-07-29T08:16:25.719Z] INFO: Initializing cron jobs...
+[2026-07-29T08:16:25.783Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-07-29T08:16:25.785Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-07-29T08:16:25.788Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-07-29T08:16:25.791Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-07-29T08:16:25.795Z] INFO: Job whatsapp-inactive-check scheduled: */5 * * * *
+[2026-07-29T08:16:25.798Z] INFO: Job telegram-inactive-check scheduled: */5 * * * *
+[2026-07-29T08:16:25.802Z] INFO: Job wifi-alert-check scheduled: */20 * * * *
+[2026-07-29T08:16:25.805Z] INFO: Job wifi-metrics-cleanup scheduled: 0 3 * * 0
+[2026-07-29T08:16:25.807Z] INFO: Job report-delivery scheduled: * * * * *
+[2026-07-29T08:16:25.808Z] INFO: All cron jobs initialized
+[2026-07-29T08:16:28.417Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"hasPass":true,"hasFrom":true,"hasApiKey":false,"apiProvider":null,"bypassEmail":false}
+[2026-07-29T08:16:28.428Z] INFO: Email service initialized successfully (SMTP) {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-07-29T08:16:29.388Z] INFO: [WhatsApp] Twilio client initialized successfully
+[2026-07-29T08:16:29.513Z] INFO: [Telegram] Bot token configured, service ready
+[2026-07-29T08:16:31.913Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-07-29T08:16:34.028Z] INFO: Initializing cron jobs...
+[2026-07-29T08:16:34.054Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-07-29T08:16:34.056Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-07-29T08:16:34.057Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-07-29T08:16:34.058Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-07-29T08:16:34.061Z] INFO: Job whatsapp-inactive-check scheduled: */5 * * * *
+[2026-07-29T08:16:34.063Z] INFO: Job telegram-inactive-check scheduled: */5 * * * *
+[2026-07-29T08:16:34.064Z] INFO: Job wifi-alert-check scheduled: */20 * * * *
+[2026-07-29T08:16:34.065Z] INFO: Job wifi-metrics-cleanup scheduled: 0 3 * * 0
+[2026-07-29T08:16:34.068Z] INFO: Job report-delivery scheduled: * * * * *
+[2026-07-29T08:16:34.069Z] INFO: All cron jobs initialized
+[2026-07-29T08:16:37.926Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"hasPass":true,"hasFrom":true,"hasApiKey":false,"apiProvider":null,"bypassEmail":false}
+[2026-07-29T08:16:37.941Z] INFO: Email service initialized successfully (SMTP) {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-07-29T08:16:38.881Z] INFO: [WhatsApp] Twilio client initialized successfully
+[2026-07-29T08:16:38.900Z] INFO: [Telegram] Bot token configured, service ready
+[2026-07-29T08:16:41.939Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-07-29T08:16:43.648Z] INFO: Initializing cron jobs...
+[2026-07-29T08:16:43.683Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-07-29T08:16:43.685Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-07-29T08:16:43.687Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-07-29T08:16:43.689Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-07-29T08:16:43.692Z] INFO: Job whatsapp-inactive-check scheduled: */5 * * * *
+[2026-07-29T08:16:43.694Z] INFO: Job telegram-inactive-check scheduled: */5 * * * *
+[2026-07-29T08:16:43.695Z] INFO: Job wifi-alert-check scheduled: */20 * * * *
+[2026-07-29T08:16:43.698Z] INFO: Job wifi-metrics-cleanup scheduled: 0 3 * * 0
+[2026-07-29T08:16:43.703Z] INFO: Job report-delivery scheduled: * * * * *
+[2026-07-29T08:16:43.707Z] INFO: All cron jobs initialized
+[2026-07-29T08:20:00.467Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T08:20:00.575Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T08:20:00.584Z] INFO: Starting Telegram inactive check job
+[2026-07-29T08:20:00.586Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T08:20:00.646Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T08:20:00.647Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T08:20:00.658Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T08:20:00.659Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T08:20:25.222Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T08:20:25.233Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T08:20:25.234Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T08:20:25.450Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T08:20:25.537Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T08:20:25.540Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"13:19","isActive":true}
+[2026-07-29T08:20:25.541Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T08:20:25.786Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T08:20:25.835Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T08:20:25.836Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T08:20:25.929Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T08:20:26.040Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T08:20:26.042Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"13:19","isActive":true}
+[2026-07-29T08:20:26.043Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}

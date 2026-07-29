@@ -368,6 +368,8 @@ class CallAutomationService {
         frequency: 'daily',
         hourlyShiftStartTime: '08:00',
         hourlyShiftEndTime: '20:00',
+        maxRetryAttempts: 24,
+        retryIntervalMinutes: 60,
         isActive: false,
       };
     }
@@ -386,6 +388,8 @@ class CallAutomationService {
         scheduledDay: 'monday',
         hourlyShiftStartTime: '08:00',
         hourlyShiftEndTime: '20:00',
+        maxRetryAttempts: 24,
+        retryIntervalMinutes: 60,
         isActive: false,
       };
     }
@@ -412,6 +416,8 @@ class CallAutomationService {
         scheduledDay: 'monday',
         hourlyShiftStartTime: '08:00',
         hourlyShiftEndTime: '20:00',
+        maxRetryAttempts: 24,
+        retryIntervalMinutes: 60,
         isActive: false,
         simId: sim._id,
         mobileNumber: sim.mobileNumber,
@@ -438,6 +444,8 @@ class CallAutomationService {
         scheduledDay: 'monday',
         hourlyShiftStartTime: '08:00',
         hourlyShiftEndTime: '20:00',
+        maxRetryAttempts: 24,
+        retryIntervalMinutes: 60,
         isActive: false,
         simId: sim._id,
         mobileNumber: sim.mobileNumber,
