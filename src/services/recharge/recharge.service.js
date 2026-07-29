@@ -571,6 +571,47 @@ class RechargeService {
 
     return recharges;
   }
+
+  /**
+   * Update recharge status (used by PayU callbacks to activate recharges)
+   * @param {string} rechargeId - Recharge ID
+   * @param {string} status - New status ('completed', 'failed')
+   * @param {Object} paymentData - Optional payment data to update
+   */
+  async updateRechargeStatus(rechargeId, status, paymentData = {}) {
+    const recharge = await Recharge.findById(rechargeId);
+    if (!recharge) {
+      throw new NotFoundError('Recharge');
+    }
+
+    // Idempotency — already in target status
+    if (recharge.status === status) {
+      return recharge;
+    }
+
+    recharge.status = status;
+    if (paymentData.transactionId) recharge.transactionId = paymentData.transactionId;
+    if (paymentData.paymentId) recharge.paymentId = paymentData.paymentId;
+    if (paymentData.paymentMethod) recharge.paymentMethod = paymentData.paymentMethod;
+    if (paymentData.notes) recharge.notes = (recharge.notes || '') + ' ' + paymentData.notes;
+
+    await recharge.save();
+
+    // If completed, update SIM and company stats, send notifications
+    if (status === 'completed') {
+      const sim = await Sim.findById(recharge.simId);
+      if (sim) {
+        sim.lastActiveDate = new Date();
+        await sim.save();
+      }
+      await this.updateCompanyStats(recharge.companyId);
+      this._sendRechargeNotification(recharge, sim, { name: 'PayU', email: '' }).catch(err => {
+        logger.error('Failed to send recharge notification:', err.message);
+      });
+    }
+
+    return recharge;
+  }
 }
 
 module.exports = new RechargeService();

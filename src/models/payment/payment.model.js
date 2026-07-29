@@ -35,11 +35,25 @@ const PaymentSchema = new Schema({
     required: false,
   },
 
-  // Subscription plan purchased
+  // Subscription plan purchased (null for recharge payments)
   subscriptionId: {
     type: Schema.Types.ObjectId,
     ref: 'Subscription',
-    required: true,
+    required: false,
+  },
+
+  // What this payment is for
+  paymentFor: {
+    type: String,
+    enum: ['subscription', 'recharge'],
+    default: 'subscription',
+  },
+
+  // Linked recharge (null for subscription payments)
+  rechargeId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Recharge',
+    sparse: true,
   },
 
   // Plan details at time of purchase
@@ -70,14 +84,35 @@ const PaymentSchema = new Schema({
   // Razorpay IDs
   razorpayOrderId: {
     type: String,
-    required: true,
-    index: true,
+    sparse: true,
   },
   razorpayPaymentId: {
     type: String,
     sparse: true,
   },
   razorpaySignature: {
+    type: String,
+    sparse: true,
+  },
+
+  // Payment gateway used
+  gateway: {
+    type: String,
+    enum: ['razorpay', 'payu'],
+    default: 'razorpay',
+  },
+
+  // PayU IDs
+  payuTxnId: {
+    type: String,
+    sparse: true,
+    index: true,
+  },
+  payuMihpayId: {
+    type: String,
+    sparse: true,
+  },
+  payuHash: {
     type: String,
     sparse: true,
   },
@@ -200,6 +235,18 @@ PaymentSchema.methods.markCompleted = function(paymentData) {
   this.cardId = paymentData.card_id;
   this.cardLast4 = paymentData.card_last4;
   this.cardNetwork = paymentData.card_network;
+  this.paidAt = new Date();
+  return this.save();
+};
+
+PaymentSchema.methods.markCompletedFromPayu = function(payuData) {
+  this.status = 'completed';
+  this.payuMihpayId = payuData.mihpayid || '';
+  this.paymentMethod = payuData.paymentMethod || payuData.mode || 'other';
+  this.bank = payuData.bankcode || '';
+  this.cardLast4 = payuData.cardnum ? payuData.cardnum.slice(-4) : '';
+  this.cardNetwork = payuData.cardtype || '';
+  this.vpa = payuData.vpa || '';
   this.paidAt = new Date();
   return this.save();
 };

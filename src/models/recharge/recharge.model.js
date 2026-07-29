@@ -40,12 +40,17 @@ const RechargeSchema = new Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ['cash', 'upi', 'card', 'netbanking', 'wallet', 'other'],
+    enum: ['cash', 'upi', 'card', 'netbanking', 'wallet', 'other', 'payu'],
     default: 'cash',
   },
   transactionId: {
     type: String,
     trim: true,
+  },
+  paymentId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Payment',
+    default: null,
   },
   status: {
     type: String,
@@ -54,7 +59,7 @@ const RechargeSchema = new Schema({
   },
   source: {
     type: String,
-    enum: ['manual', 'AUTO_SMS'],
+    enum: ['manual', 'AUTO_SMS', 'payu'],
     default: 'manual',
   },
   smsText: {

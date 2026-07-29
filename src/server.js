@@ -39,6 +39,9 @@ const pageContentRoutes = require('./routes/pageContent/pageContent.routes');
 const callAutomationRoutes = require('./routes/callAutomation/callAutomation.routes'); // [CALL AUTOMATION]
 const leadRoutes = require('./routes/lead/lead.routes');
 const reportScheduleRoutes = require('./routes/reportSchedule/reportSchedule.routes');
+const payuRoutes = require('./routes/payu/payu.routes'); // [PAYU PAYMENT GATEWAY]
+const rechargePlanRoutes = require('./routes/rechargePlan/rechargePlan.routes'); // [RECHARGE PLANS]
+const { seed: seedRechargePlans } = require('./seeders/rechargePlans.seeder'); // [RECHARGE PLANS]
 
 // Import middleware
 const errorHandler = require('./middleware/errorHandler');
@@ -70,6 +73,12 @@ connectDB().then(async () => {
   cronService.initJobs();
   // Initialize default legal pages
   await pageContentService.initializeDefaultPages();
+  // Seed default recharge plans (idempotent — skips existing)
+  try {
+    await seedRechargePlans();
+  } catch (err) {
+    console.error('[Seeder] Failed to seed recharge plans:', err.message);
+  }
 });
 
 // Middleware
@@ -156,6 +165,8 @@ app.use('/api/pages', pageContentRoutes);
 app.use('/api/call-automation', callAutomationRoutes); // [CALL AUTOMATION]
 app.use('/api/leads', leadRoutes);
 app.use('/api/report-schedules', reportScheduleRoutes);
+app.use('/api/payu', payuRoutes); // [PAYU PAYMENT GATEWAY]
+app.use('/api/recharge-plans', rechargePlanRoutes); // [RECHARGE PLANS]
 
 // 404 handler
 app.use((req, res, next) => {

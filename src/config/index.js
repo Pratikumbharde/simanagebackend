@@ -34,4 +34,22 @@ module.exports = {
     keySecret: process.env.RAZORPAY_KEY_SECRET,
     webhookSecret: process.env.RAZORPAY_WEBHOOK_SECRET,
   },
+  payu: {
+    key: process.env.PAYU_MERCHANT_KEY || '',
+    salt: process.env.PAYU_MERCHANT_SALT || '',
+    isProduction: process.env.PAYU_IS_PRODUCTION === 'true',
+    testUrl: 'https://test.payu.in/_payment',
+    prodUrl: 'https://secure.payu.in/_payment',
+    verifyApiUrl: process.env.PAYU_IS_PRODUCTION === 'true'
+      ? 'https://info.payu.in/merchant/postservice.php?form=2'
+      : 'https://test.payu.in/merchant/postservice.php?form=2',
+    successUrl: process.env.PAYU_SUCCESS_URL || (process.env.FRONTEND_URL || 'http://localhost:5173') + '/payment/success',
+    failureUrl: process.env.PAYU_FAILURE_URL || (process.env.FRONTEND_URL || 'http://localhost:5173') + '/payment/failure',
+    bbps: {
+      clientId: process.env.PAYU_BBPS_CLIENT_ID || '',
+      clientSecret: process.env.PAYU_BBPS_CLIENT_SECRET || '',
+      agentId: process.env.PAYU_BBPS_AGENT_ID || '1',
+      isProduction: process.env.PAYU_IS_PRODUCTION === 'true',
+    },
+  },
 };

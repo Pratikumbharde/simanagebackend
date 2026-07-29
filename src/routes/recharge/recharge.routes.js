@@ -75,7 +75,7 @@ const createRechargeValidation = [
   body('amount').isFloat({ min: 0 }).withMessage('Valid amount is required'),
   body('validity').optional().isInt({ min: 1 }).withMessage('Validity must be at least 1 day'),
   body('rechargeDate').optional().isISO8601().withMessage('Invalid date'),
-  body('paymentMethod').optional().isIn(['cash', 'upi', 'card', 'netbanking', 'wallet', 'other']),
+  body('paymentMethod').optional().isIn(['cash', 'upi', 'card', 'netbanking', 'wallet', 'other', 'payu']),
   body('transactionId').optional().isString(),
   body('notes').optional().isString().isLength({ max: 500 }),
   body('plan.name').optional().isString(),
@@ -105,7 +105,8 @@ const queryValidation = [
 ];
 
 // Routes
-router.post('/', optionalReceiptUpload, createRechargeValidation, validate, rechargeController.create);
+// Manual recharge creation — restricted to super_admin (regular users use PayU via /api/payu/initiate-payment)
+router.post('/', authorize('super_admin'), optionalReceiptUpload, createRechargeValidation, validate, rechargeController.create);
 router.get('/', queryValidation, validate, rechargeController.getAll);
 router.get('/export', checkSubscriptionFeature('excelExport'), rechargeController.export);
 router.get('/upcoming', rechargeController.getUpcoming);
