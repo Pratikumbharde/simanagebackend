@@ -85,6 +85,7 @@ class CallAttemptService {
         targetSimNumber: targetNumber,
         status: result.status || 'unknown',
         callDuration: result.duration || result.callDuration || 0,
+        retryAttempt: result.retryAttempt || 0,
         attemptedAt: result.attemptedAt ? new Date(result.attemptedAt) : new Date(),
       };
     });
@@ -110,7 +111,12 @@ class CallAttemptService {
 
     const filter = { companyId };
     if (status) {
-      filter.status = status;
+      // "not_connected" is a virtual filter that matches all non-connected statuses
+      if (status === 'not_connected') {
+        filter.status = { $in: ['rejected', 'switched_off', 'unreachable', 'unknown', 'max_retries_exceeded'] };
+      } else {
+        filter.status = status;
+      }
     }
     if (callerSimNumber) {
       filter.callerSimNumber = callerSimNumber;
@@ -148,6 +154,133 @@ class CallAttemptService {
    */
   async getLatestStatusPerTarget(companyId) {
     return CallAttempt.getLatestStatusPerTarget(companyId);
+  }
+
+  /**
+   * Get connection status for each target SIM in a company.
+   * Returns whether each target is "connected" or "not_connected" based on the latest call attempt.
+   * Also includes the detailed status, retry count, and last attempt timestamp.
+   * @param {string} companyId
+   */
+  async getConnectionStatus(companyId) {
+    const CallAutomationConfig = require('../../models/callAutomation/callAutomation.model');
+
+    // Get the call automation config to find all target SIMs
+    const config = await CallAutomationConfig.findOne({ companyId }).lean();
+
+    // Get latest status per target from call attempts
+    const latestStatuses = await CallAttempt.getLatestStatusPerTarget(companyId);
+
+    // Build a map of target number → latest status
+    const statusMap = {};
+    for (const entry of latestStatuses) {
+      statusMap[entry.targetSimNumber] = entry;
+    }
+
+    // Build the result: include ALL configured targets, even if no call attempts exist yet
+    const results = [];
+
+    if (config && config.targetCallerMappings) {
+      for (const mapping of config.targetCallerMappings) {
+        // Resolve target SIM info
+        let targetNumber = '';
+        let targetSimId = null;
+
+        if (mapping.targetSimId && typeof mapping.targetSimId === 'object') {
+          targetSimId = mapping.targetSimId._id || mapping.targetSimId;
+          targetNumber = mapping.targetSimId.mobileNumber || '';
+        } else {
+          targetSimId = mapping.targetSimId;
+        }
+
+        // If we don't have the number yet, try to find it from SIM data
+        if (!targetNumber && targetSimId) {
+          try {
+            const sim = await Sim.findById(targetSimId).select('mobileNumber').lean();
+            if (sim) {
+              targetNumber = sim.mobileNumber;
+            }
+          } catch (e) {
+            // Ignore
+          }
+        }
+
+        // Also check by last 10 digits in case of format differences
+        const latestStatus = statusMap[targetNumber] ||
+          (targetNumber ? Object.entries(statusMap).find(([key]) => {
+            const digits1 = key.replace(/\D/g, '').slice(-10);
+            const digits2 = targetNumber.replace(/\D/g, '').slice(-10);
+            return digits1 && digits2 && digits1 === digits2;
+          })?.[1] : null);
+
+        // Get caller SIMs for this target
+        const callerSimIds = mapping.callerSimIds || [];
+        const callerNumbers = [];
+        for (const callerId of callerSimIds) {
+          try {
+            const id = typeof callerId === 'object' ? (callerId._id || callerId) : callerId;
+            if (id) {
+              const sim = await Sim.findById(id).select('mobileNumber').lean();
+              if (sim) {
+                callerNumbers.push(sim.mobileNumber);
+              }
+            }
+          } catch (e) {
+            // Ignore
+          }
+        }
+
+        const latestCallStatus = latestStatus?.status || null;
+        const isConnected = latestCallStatus === 'connected';
+
+        results.push({
+          targetSimId: targetSimId?.toString() || (mapping.targetSimId?.toString ? mapping.targetSimId.toString() : ''),
+          targetSimNumber: targetNumber,
+          callerSimNumbers: callerNumbers,
+          connectionStatus: isConnected ? 'connected' : (latestCallStatus ? 'not_connected' : 'never_called'),
+          detailedStatus: latestCallStatus,
+          callDuration: latestStatus?.callDuration || 0,
+          lastAttemptAt: latestStatus?.attemptedAt || null,
+          lastCallerSimNumber: latestStatus?.callerSimNumber || '',
+          retryAttempt: latestStatus?.retryAttempt || 0,
+        });
+      }
+    }
+
+    // Also include any targets that have call attempts but may not be in the config anymore
+    for (const entry of latestStatuses) {
+      const targetNumber = entry.targetSimNumber;
+      const alreadyIncluded = results.some(r =>
+        r.targetSimNumber === targetNumber ||
+        (r.targetSimNumber && targetNumber &&
+          r.targetSimNumber.replace(/\D/g, '').slice(-10) === targetNumber.replace(/\D/g, '').slice(-10))
+      );
+
+      if (!alreadyIncluded) {
+        const isConnected = entry.status === 'connected';
+        results.push({
+          targetSimId: entry._id?.toString() || '',
+          targetSimNumber: targetNumber,
+          callerSimNumbers: [entry.callerSimNumber || ''],
+          connectionStatus: isConnected ? 'connected' : (entry.status ? 'not_connected' : 'never_called'),
+          detailedStatus: entry.status,
+          callDuration: entry.callDuration || 0,
+          lastAttemptAt: entry.attemptedAt || null,
+          lastCallerSimNumber: entry.callerSimNumber || '',
+          retryAttempt: entry.retryAttempt || 0,
+        });
+      }
+    }
+
+    return {
+      summary: {
+        total: results.length,
+        connected: results.filter(r => r.connectionStatus === 'connected').length,
+        notConnected: results.filter(r => r.connectionStatus === 'not_connected').length,
+        neverCalled: results.filter(r => r.connectionStatus === 'never_called').length,
+      },
+      targets: results,
+    };
   }
 
   /**

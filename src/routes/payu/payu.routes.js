@@ -4,11 +4,14 @@
  * Public routes:
  * - POST /payu/success   — PayU success redirect
  * - POST /payu/failure   — PayU failure redirect
+ * - POST /payu/cancel    — PayU cancel redirect (user closed checkout)
  * - POST /payu/webhook   — PayU server-to-server notification
  *
  * Authenticated routes:
  * - POST /payu/initiate-payment — Create pending recharge + get PayU form data
- * - GET  /payu/status/:txnid   — Check payment status
+ * - GET  /payu/status/:txnid   — Check payment status by transaction ID
+ * - GET  /payu/status/by-recharge/:rechargeId — Check payment status by recharge ID
+ * - POST /payu/cleanup-stale   — Manually trigger stale payment cleanup (admin)
  *
  * BBPS Plan Routes (authenticated):
  * - GET  /payu/plans/operator-circle  — Detect operator & circle from mobile number
@@ -25,7 +28,7 @@ const router = express.Router();
 const { body, param, query } = require('express-validator');
 const payuController = require('../../controllers/payu/payu.controller');
 const bbpsController = require('../../controllers/payu/bbps.controller');
-const { authenticate } = require('../../middleware/auth');
+const { authenticate, authorize } = require('../../middleware/auth');
 const { validate } = require('../../middleware/validate');
 
 // ============ VALIDATION RULES ============
@@ -39,11 +42,16 @@ const initiatePaymentValidation = [
   body('plan.data').optional().isString().trim(),
   body('plan.calls').optional().isString().trim(),
   body('plan.sms').optional().isString().trim(),
+  body('planId').optional().isMongoId().withMessage('Valid plan ID is required'),
   body('notes').optional().isString().trim().isLength({ max: 500 }),
 ];
 
 const txnIdValidation = [
   param('txnid').notEmpty().withMessage('Transaction ID is required'),
+];
+
+const rechargeIdValidation = [
+  param('rechargeId').isMongoId().withMessage('Valid recharge ID is required'),
 ];
 
 const mobileValidation = [
@@ -62,6 +70,9 @@ router.post('/success', payuController.successCallback);
 // PayU failure redirect (browser POST from PayU)
 router.post('/failure', payuController.failureCallback);
 
+// PayU cancel redirect (browser POST from PayU when user cancels)
+router.post('/cancel', payuController.cancelCallback);
+
 // PayU server-to-server webhook
 router.post('/webhook', payuController.webhook);
 
@@ -77,12 +88,27 @@ router.post(
   payuController.initiatePayment
 );
 
-// Check payment status
+// Check payment status by transaction ID
 router.get(
   '/status/:txnid',
   txnIdValidation,
   validate,
   payuController.getPaymentStatus
+);
+
+// Check payment status by recharge ID
+router.get(
+  '/status/by-recharge/:rechargeId',
+  rechargeIdValidation,
+  validate,
+  payuController.getPaymentStatusByRecharge
+);
+
+// Manually trigger stale payment cleanup (admin only)
+router.post(
+  '/cleanup-stale',
+  authorize('super_admin', 'admin'),
+  payuController.cleanupStale
 );
 
 // ============ BBPS PLAN ROUTES (Authenticated) ============

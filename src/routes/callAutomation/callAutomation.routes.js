@@ -204,6 +204,14 @@ router.get(
   callAutomationController.getCallAttempts
 );
 
+// Get connection status for each target SIM (admin only)
+router.get(
+  '/connection-status',
+  authorize('super_admin', 'admin'),
+  checkCompanyAccess,
+  callAutomationController.getConnectionStatus
+);
+
 // =============================================
 // DEVICE ROUTES (public, uses SIM auth)
 // =============================================

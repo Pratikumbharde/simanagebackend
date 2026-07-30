@@ -67,6 +67,7 @@ class CronService {
     this.scheduleWifiAlertCheck();
     this.scheduleWifiMetricsCleanup();
     this.scheduleReportDelivery();
+    this.scheduleStalePaymentCleanup();
 
     logger.info('All cron jobs initialized');
   }
@@ -295,6 +296,23 @@ class CronService {
         logger.info(`WiFi metrics cleanup completed: ${result.deletedCount} old metrics removed`);
       } catch (error) {
         logger.error('WiFi metrics cleanup job failed:', error);
+      }
+    });
+  }
+
+  // Stale PayU payment cleanup - runs every 30 minutes
+  // Cancels pending payments that haven't been confirmed within 30 minutes
+  scheduleStalePaymentCleanup() {
+    this.schedule('stale-payment-cleanup', '*/30 * * * *', async () => {
+      try {
+        logger.info('Starting stale PayU payment cleanup job');
+
+        const payuService = require('../services/payu/payu.service');
+        const result = await payuService.cleanupStalePayments(30);
+
+        logger.info(`Stale payment cleanup completed: ${result.cleaned} payments cleaned up`);
+      } catch (error) {
+        logger.error('Stale payment cleanup job failed:', error);
       }
     });
   }

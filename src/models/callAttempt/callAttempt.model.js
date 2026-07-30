@@ -52,6 +52,12 @@ const CallAttemptSchema = new Schema({
     default: 0,
     min: 0,
   },
+  retryAttempt: {
+    type: Number,
+    default: 0,
+    min: 0,
+    // 0 = first/original call, 1 = first retry, 2 = second retry, etc.
+  },
   attemptedAt: {
     type: Date,
     default: Date.now,
@@ -95,6 +101,7 @@ CallAttemptSchema.statics.getLatestStatusPerTarget = function (companyId) {
         attemptedAt: { $first: '$attemptedAt' },
         callerSimNumber: { $first: '$callerSimNumber' },
         targetSimNumber: { $first: '$targetSimNumber' },
+        retryAttempt: { $first: '$retryAttempt' },
       },
     },
     { $sort: { attemptedAt: -1 } },

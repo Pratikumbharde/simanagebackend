@@ -2102,3 +2102,392 @@
 [2026-07-29T10:50:01.055Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
 [2026-07-29T10:50:05.409Z] INFO: [WIFI ALERT] All checks completed {"checked":0,"skipped":3,"alertsCreated":0,"alertsUpdated":0,"alertsResolved":0,"emailsSent":0,"emailErrors":[],"errors":[],"offlineAlertsCreated":0,"wifiOffAlertsCreated":0,"disconnectedAlertsCreated":0,"notificationsCreated":0}
 [2026-07-29T10:50:05.440Z] INFO: WiFi alert check job completed
+[2026-07-29T10:55:00.466Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T10:55:00.682Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T10:55:00.761Z] INFO: Starting Telegram inactive check job
+[2026-07-29T10:55:00.785Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T10:55:00.976Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T10:55:01.067Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T10:55:01.200Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T10:55:01.331Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:00:00.479Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T11:00:00.605Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T11:00:00.687Z] INFO: Starting Telegram inactive check job
+[2026-07-29T11:00:00.695Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T11:00:00.807Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:00:00.836Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:00:00.869Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:00:00.901Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:05:00.234Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T11:05:00.428Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T11:05:00.504Z] INFO: Starting Telegram inactive check job
+[2026-07-29T11:05:00.534Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T11:05:00.670Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:05:00.688Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:05:00.728Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:05:00.780Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:10:00.166Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T11:10:00.320Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T11:10:00.420Z] INFO: Starting Telegram inactive check job
+[2026-07-29T11:10:00.423Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T11:10:00.430Z] INFO: Starting WiFi alert check job
+[2026-07-29T11:10:00.502Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:10:00.505Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:10:00.508Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:10:00.509Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:10:03.225Z] INFO: [WIFI ALERT] All checks completed {"checked":0,"skipped":3,"alertsCreated":0,"alertsUpdated":0,"alertsResolved":0,"emailsSent":0,"emailErrors":[],"errors":[],"offlineAlertsCreated":0,"wifiOffAlertsCreated":0,"disconnectedAlertsCreated":0,"notificationsCreated":0}
+[2026-07-29T11:10:03.227Z] INFO: WiFi alert check job completed
+[2026-07-29T11:15:00.643Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T11:15:00.751Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T11:15:00.757Z] INFO: Starting Telegram inactive check job
+[2026-07-29T11:15:00.758Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T11:15:00.823Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:15:00.823Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:15:00.828Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:15:00.829Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:20:00.115Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T11:20:00.432Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T11:20:00.436Z] INFO: Starting Telegram inactive check job
+[2026-07-29T11:20:00.437Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T11:20:00.601Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:20:00.603Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:20:00.619Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:20:00.620Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:25:00.868Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T11:25:01.215Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T11:25:01.287Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:25:01.288Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:30:00.035Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T11:30:00.364Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T11:30:00.368Z] INFO: Starting Telegram inactive check job
+[2026-07-29T11:30:00.371Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T11:30:00.376Z] INFO: Starting WiFi alert check job
+[2026-07-29T11:30:00.431Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:30:00.432Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:30:00.441Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:30:00.442Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:30:02.110Z] INFO: [WIFI ALERT] All checks completed {"checked":0,"skipped":3,"alertsCreated":0,"alertsUpdated":0,"alertsResolved":0,"emailsSent":0,"emailErrors":[],"errors":[],"offlineAlertsCreated":0,"wifiOffAlertsCreated":0,"disconnectedAlertsCreated":0,"notificationsCreated":0}
+[2026-07-29T11:30:02.111Z] INFO: WiFi alert check job completed
+[2026-07-29T11:35:00.817Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T11:35:01.031Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T11:35:01.301Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:35:01.311Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:40:00.983Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T11:40:01.032Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T11:40:01.109Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:40:01.131Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:45:00.989Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T11:45:01.005Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T11:45:01.068Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:45:01.070Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:55:00.206Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T11:55:00.230Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T11:55:00.242Z] INFO: Starting Telegram inactive check job
+[2026-07-29T11:55:00.248Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T11:55:00.317Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:55:00.318Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T11:55:00.382Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T11:55:00.388Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:00:00.431Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T12:00:00.545Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T12:00:00.557Z] INFO: Starting Telegram inactive check job
+[2026-07-29T12:00:00.559Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T12:00:01.000Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:00:01.001Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:00:01.010Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:00:01.011Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:05:00.777Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T12:05:00.807Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T12:05:00.881Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:05:00.882Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:05:00.919Z] INFO: Starting Telegram inactive check job
+[2026-07-29T12:05:00.920Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T12:05:00.985Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:05:00.986Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:10:00.034Z] INFO: Starting Telegram inactive check job
+[2026-07-29T12:10:00.137Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T12:10:00.142Z] INFO: Starting WiFi alert check job
+[2026-07-29T12:10:00.260Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:10:00.261Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:10:00.744Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T12:10:00.745Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T12:10:00.814Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:10:00.815Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:10:02.594Z] INFO: [WIFI ALERT] All checks completed {"checked":0,"skipped":3,"alertsCreated":0,"alertsUpdated":0,"alertsResolved":0,"emailsSent":0,"emailErrors":[],"errors":[],"offlineAlertsCreated":0,"wifiOffAlertsCreated":0,"disconnectedAlertsCreated":0,"notificationsCreated":0}
+[2026-07-29T12:10:02.595Z] INFO: WiFi alert check job completed
+[2026-07-29T12:15:00.443Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T12:15:00.514Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T12:15:00.577Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:15:00.578Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:15:00.771Z] INFO: Starting Telegram inactive check job
+[2026-07-29T12:15:00.772Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T12:15:00.828Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:15:00.829Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:20:00.380Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T12:20:00.490Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T12:20:00.506Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:20:00.507Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:20:00.706Z] INFO: Starting Telegram inactive check job
+[2026-07-29T12:20:00.707Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T12:20:00.722Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:20:00.723Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:25:00.802Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T12:25:00.840Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T12:25:00.850Z] INFO: Starting Telegram inactive check job
+[2026-07-29T12:25:00.853Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T12:25:00.920Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:25:00.921Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:25:00.924Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:25:00.925Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:30:00.638Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T12:30:00.849Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T12:30:00.960Z] INFO: Starting Telegram inactive check job
+[2026-07-29T12:30:00.983Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T12:30:01.024Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:30:01.042Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:30:01.060Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:30:01.087Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:35:00.768Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T12:35:01.109Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T12:35:01.130Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:35:01.131Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:45:00.780Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T12:45:01.142Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T12:45:01.171Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:45:01.173Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:50:00.028Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T12:50:00.362Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T12:50:00.368Z] INFO: Starting Telegram inactive check job
+[2026-07-29T12:50:00.372Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T12:50:00.378Z] INFO: Starting WiFi alert check job
+[2026-07-29T12:50:00.464Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:50:00.464Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:50:00.466Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:50:00.467Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:50:00.929Z] INFO: [WIFI ALERT] All checks completed {"checked":0,"skipped":3,"alertsCreated":0,"alertsUpdated":0,"alertsResolved":0,"emailsSent":0,"emailErrors":[],"errors":[],"offlineAlertsCreated":0,"wifiOffAlertsCreated":0,"disconnectedAlertsCreated":0,"notificationsCreated":0}
+[2026-07-29T12:50:00.930Z] INFO: WiFi alert check job completed
+[2026-07-29T12:55:00.087Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T12:55:00.423Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T12:55:00.426Z] INFO: Starting Telegram inactive check job
+[2026-07-29T12:55:00.428Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T12:55:00.450Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:55:00.451Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T12:55:00.453Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T12:55:00.453Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:00:00.237Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T13:00:00.637Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T13:00:00.641Z] INFO: Starting Telegram inactive check job
+[2026-07-29T13:00:00.642Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T13:00:00.652Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:00:00.653Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:00:00.656Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:00:00.657Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:04:20.387Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:04:20.420Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:04:20.423Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:04:20.645Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T13:04:20.685Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:04:20.689Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"13:19","isActive":true}
+[2026-07-29T13:04:20.690Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:04:20.764Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:04:20.801Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:04:20.802Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:04:20.816Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T13:04:20.867Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:04:20.870Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"13:19","isActive":true}
+[2026-07-29T13:04:20.872Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:04:45.920Z] INFO: [CALL AUTOMATION CONTROLLER] saveConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"targetCallerMappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","callDuration":19,"scheduledTime":"18:36","scheduledDay":"monday","isActive":true}
+[2026-07-29T13:04:45.924Z] INFO: [CALL AUTOMATION] saveConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","companyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:04:45.966Z] INFO: [CALL AUTOMATION] saveConfig called with: {"companyId":"69f8b601247c51deb2aa1751","isNewFormat":true,"frequency":"daily","scheduledTime":"18:36","scheduledDay":"monday","callDuration":19,"isActive":true,"existingConfig":"6a69aba1702aa7e92f0e8f05"}
+[2026-07-29T13:04:46.034Z] INFO: [CALL AUTOMATION] Config saved successfully: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","isNew":"update","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","scheduledTime":"18:36","isActive":true}
+[2026-07-29T13:04:46.069Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:04:46.098Z] INFO: Audit log created: CALL_AUTOMATION.CALL_AUTOMATION_CONFIG_SAVE {"logId":"6a69fa6ec6f95d18f3334278","performedBy":"69f8b601247c51deb2aa1753","companyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:04:46.181Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:04:46.282Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:04:46.288Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:04:46.332Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T13:04:46.356Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:04:46.361Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"18:36","isActive":true}
+[2026-07-29T13:04:46.362Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:05:00.428Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T13:05:00.430Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T13:05:00.433Z] INFO: Starting Telegram inactive check job
+[2026-07-29T13:05:00.434Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T13:05:00.445Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:05:00.446Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:05:00.450Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:05:00.451Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:08:13.330Z] INFO: [CALL AUTOMATION CONTROLLER] saveConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"targetCallerMappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","callDuration":19,"scheduledTime":"18:40","scheduledDay":"monday","isActive":true}
+[2026-07-29T13:08:13.332Z] INFO: [CALL AUTOMATION] saveConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","companyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:08:13.368Z] INFO: [CALL AUTOMATION] saveConfig called with: {"companyId":"69f8b601247c51deb2aa1751","isNewFormat":true,"frequency":"daily","scheduledTime":"18:40","scheduledDay":"monday","callDuration":19,"isActive":true,"existingConfig":"6a69aba1702aa7e92f0e8f05"}
+[2026-07-29T13:08:13.414Z] INFO: [CALL AUTOMATION] Config saved successfully: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","isNew":"update","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","scheduledTime":"18:40","isActive":true}
+[2026-07-29T13:08:13.450Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:08:13.473Z] INFO: Audit log created: CALL_AUTOMATION.CALL_AUTOMATION_CONFIG_SAVE {"logId":"6a69fb3dc6f95d18f33342c0","performedBy":"69f8b601247c51deb2aa1753","companyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:08:13.559Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:08:13.560Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:08:13.569Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:08:13.619Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T13:08:13.636Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:08:13.641Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"18:40","isActive":true}
+[2026-07-29T13:08:13.643Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:10:00.612Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T13:10:00.713Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T13:10:00.719Z] INFO: Starting Telegram inactive check job
+[2026-07-29T13:10:00.721Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T13:10:00.726Z] INFO: Starting WiFi alert check job
+[2026-07-29T13:10:00.735Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:10:00.737Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:10:00.739Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:10:00.740Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:10:01.479Z] INFO: [WIFI ALERT] All checks completed {"checked":0,"skipped":3,"alertsCreated":0,"alertsUpdated":0,"alertsResolved":0,"emailsSent":0,"emailErrors":[],"errors":[],"offlineAlertsCreated":0,"wifiOffAlertsCreated":0,"disconnectedAlertsCreated":0,"notificationsCreated":0}
+[2026-07-29T13:10:01.480Z] INFO: WiFi alert check job completed
+[2026-07-29T13:12:50.711Z] INFO: [CALL AUTOMATION CONTROLLER] saveConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"targetCallerMappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","callDuration":19,"scheduledTime":"18:45","scheduledDay":"monday","isActive":true}
+[2026-07-29T13:12:50.713Z] INFO: [CALL AUTOMATION] saveConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","companyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:12:50.784Z] INFO: [CALL AUTOMATION] saveConfig called with: {"companyId":"69f8b601247c51deb2aa1751","isNewFormat":true,"frequency":"daily","scheduledTime":"18:45","scheduledDay":"monday","callDuration":19,"isActive":true,"existingConfig":"6a69aba1702aa7e92f0e8f05"}
+[2026-07-29T13:12:50.834Z] INFO: [CALL AUTOMATION] Config saved successfully: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","isNew":"update","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","scheduledTime":"18:45","isActive":true}
+[2026-07-29T13:12:50.877Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:12:50.899Z] INFO: Audit log created: CALL_AUTOMATION.CALL_AUTOMATION_CONFIG_SAVE {"logId":"6a69fc52c6f95d18f3334324","performedBy":"69f8b601247c51deb2aa1753","companyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:12:50.988Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:12:50.990Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:12:50.998Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:12:51.045Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T13:12:51.320Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:12:51.324Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"18:45","isActive":true}
+[2026-07-29T13:12:51.326Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:13:12.985Z] INFO: [CALL AUTOMATION CONTROLLER] saveConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"targetCallerMappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","callDuration":19,"scheduledTime":"18:44","scheduledDay":"monday","isActive":true}
+[2026-07-29T13:13:12.988Z] INFO: [CALL AUTOMATION] saveConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","companyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:13:13.024Z] INFO: [CALL AUTOMATION] saveConfig called with: {"companyId":"69f8b601247c51deb2aa1751","isNewFormat":true,"frequency":"daily","scheduledTime":"18:44","scheduledDay":"monday","callDuration":19,"isActive":true,"existingConfig":"6a69aba1702aa7e92f0e8f05"}
+[2026-07-29T13:13:13.048Z] INFO: [CALL AUTOMATION] Config saved successfully: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","isNew":"update","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","scheduledTime":"18:44","isActive":true}
+[2026-07-29T13:13:13.081Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:13:13.105Z] INFO: Audit log created: CALL_AUTOMATION.CALL_AUTOMATION_CONFIG_SAVE {"logId":"6a69fc69c6f95d18f3334343","performedBy":"69f8b601247c51deb2aa1753","companyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:13:13.188Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:13:13.189Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:13:13.196Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:13:13.236Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T13:13:13.247Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:13:13.251Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"18:44","isActive":true}
+[2026-07-29T13:13:13.255Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:15:00.852Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T13:15:00.853Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T13:15:00.869Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:15:00.870Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:15:00.911Z] INFO: Starting Telegram inactive check job
+[2026-07-29T13:15:00.913Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T13:15:00.929Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:15:00.930Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:15:01.712Z] INFO: [CALL AUTOMATION CONTROLLER] saveConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"targetCallerMappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","callDuration":19,"scheduledTime":"18:46","scheduledDay":"monday","isActive":true}
+[2026-07-29T13:15:01.714Z] INFO: [CALL AUTOMATION] saveConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","companyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:15:01.750Z] INFO: [CALL AUTOMATION] saveConfig called with: {"companyId":"69f8b601247c51deb2aa1751","isNewFormat":true,"frequency":"daily","scheduledTime":"18:46","scheduledDay":"monday","callDuration":19,"isActive":true,"existingConfig":"6a69aba1702aa7e92f0e8f05"}
+[2026-07-29T13:15:01.791Z] INFO: [CALL AUTOMATION] Config saved successfully: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","isNew":"update","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","scheduledTime":"18:46","isActive":true}
+[2026-07-29T13:15:01.827Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:15:01.850Z] INFO: Audit log created: CALL_AUTOMATION.CALL_AUTOMATION_CONFIG_SAVE {"logId":"6a69fcd5c6f95d18f3334380","performedBy":"69f8b601247c51deb2aa1753","companyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:15:01.930Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:15:01.932Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:15:01.938Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:15:01.979Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T13:15:01.996Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:15:02.000Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"18:46","isActive":true}
+[2026-07-29T13:15:02.001Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:16:01.446Z] INFO: [CALL AUTOMATION CONTROLLER] saveConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"targetCallerMappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","callDuration":19,"scheduledTime":"18:48","scheduledDay":"monday","isActive":true}
+[2026-07-29T13:16:01.448Z] INFO: [CALL AUTOMATION] saveConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","companyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:16:01.482Z] INFO: [CALL AUTOMATION] saveConfig called with: {"companyId":"69f8b601247c51deb2aa1751","isNewFormat":true,"frequency":"daily","scheduledTime":"18:48","scheduledDay":"monday","callDuration":19,"isActive":true,"existingConfig":"6a69aba1702aa7e92f0e8f05"}
+[2026-07-29T13:16:01.513Z] INFO: [CALL AUTOMATION] Config saved successfully: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","isNew":"update","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","callerSimIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}],"frequency":"daily","scheduledTime":"18:48","isActive":true}
+[2026-07-29T13:16:01.549Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:16:01.572Z] INFO: Audit log created: CALL_AUTOMATION.CALL_AUTOMATION_CONFIG_SAVE {"logId":"6a69fd11c6f95d18f33343c9","performedBy":"69f8b601247c51deb2aa1753","companyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:16:01.674Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:16:01.676Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:16:01.683Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:16:01.724Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T13:16:01.741Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:16:01.743Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"18:48","isActive":true}
+[2026-07-29T13:16:01.744Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:16:52.975Z] INFO: Fetched audit logs {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","filters":{"companyId":"69f8b601247c51deb2aa1751"},"count":10,"total":2559}
+[2026-07-29T13:16:53.308Z] INFO: Fetched audit logs {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","filters":{"companyId":"69f8b601247c51deb2aa1751"},"count":10,"total":2559}
+[2026-07-29T13:16:54.040Z] INFO: Fetched audit logs {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","filters":{"companyId":"69f8b601247c51deb2aa1751"},"count":10,"total":2559}
+[2026-07-29T13:17:04.748Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:17:04.758Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:17:04.760Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:17:04.811Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T13:17:04.857Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:17:04.860Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"18:48","isActive":true}
+[2026-07-29T13:17:04.862Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:17:04.920Z] INFO: [CALL AUTOMATION] getEligibleSims called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","companyId":"69f8b601247c51deb2aa1751","userCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:17:04.956Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig request: {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","userCompanyId":"69f8b601247c51deb2aa1751","reqCompanyId":"69f8b601247c51deb2aa1751","queryCompanyId":"not provided","resolvedCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:17:04.958Z] INFO: [CALL AUTOMATION] getConfig called {"userId":"69f8b601247c51deb2aa1753","userRole":"admin","targetCompanyId":"69f8b601247c51deb2aa1751","targetCompanyIdType":"object","userCompanyId":"69f8b601247c51deb2aa1751","paramCompanyId":"69f8b601247c51deb2aa1751"}
+[2026-07-29T13:17:04.974Z] INFO: [CALL AUTOMATION] getEligibleSims result {"totalSims":18,"callers":3,"potentialTargets":18,"callerNumbers":["+918805753927","+918805770897","+919637979102"]}
+[2026-07-29T13:17:05.019Z] INFO: [CALL AUTOMATION] populateConfig: Mappings after population {"configId":"6a69aba1702aa7e92f0e8f05","mappingsCount":1,"mappings":[{"targetSimId":"6a69a547702aa7e92f0e8dcf","targetMobileNumber":"+919665522166","callerCount":1,"callerIds":["6a69a4af702aa7e92f0e8cc5"],"callDuration":10}]}
+[2026-07-29T13:17:05.022Z] INFO: [CALL AUTOMATION] getConfig returning: {"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1,"frequency":"daily","scheduledTime":"18:48","isActive":true}
+[2026-07-29T13:17:05.024Z] INFO: [CALL AUTOMATION CONTROLLER] getConfig response: {"configFound":true,"configId":"6a69aba1702aa7e92f0e8f05","companyId":"69f8b601247c51deb2aa1751","mappingsCount":1}
+[2026-07-29T13:20:00.898Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T13:20:01.023Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T13:20:01.037Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:20:01.038Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:25:00.177Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T13:25:00.522Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T13:25:00.526Z] INFO: Starting Telegram inactive check job
+[2026-07-29T13:25:00.527Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T13:25:00.539Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:25:00.540Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:25:00.541Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:25:00.542Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:30:00.102Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T13:30:00.103Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T13:30:00.108Z] INFO: Starting Telegram inactive check job
+[2026-07-29T13:30:00.109Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T13:30:00.111Z] INFO: Starting WiFi alert check job
+[2026-07-29T13:30:00.123Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:30:00.124Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:30:00.380Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T13:30:00.381Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T13:30:00.609Z] INFO: [WIFI ALERT] All checks completed {"checked":0,"skipped":3,"alertsCreated":0,"alertsUpdated":0,"alertsResolved":0,"emailsSent":0,"emailErrors":[],"errors":[],"offlineAlertsCreated":0,"wifiOffAlertsCreated":0,"disconnectedAlertsCreated":0,"notificationsCreated":0}
+[2026-07-29T13:30:00.611Z] INFO: WiFi alert check job completed
+[2026-07-29T16:30:00.125Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T16:30:00.253Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T16:30:00.260Z] INFO: Starting Telegram inactive check job
+[2026-07-29T16:30:00.276Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T16:30:00.281Z] INFO: Starting WiFi alert check job
+[2026-07-29T16:30:00.301Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T16:30:00.302Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T16:30:01.119Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T16:30:01.119Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T16:30:02.890Z] INFO: [WIFI ALERT] All checks completed {"checked":0,"skipped":3,"alertsCreated":0,"alertsUpdated":0,"alertsResolved":0,"emailsSent":0,"emailErrors":[],"errors":[],"offlineAlertsCreated":0,"wifiOffAlertsCreated":0,"disconnectedAlertsCreated":0,"notificationsCreated":0}
+[2026-07-29T16:30:02.895Z] INFO: WiFi alert check job completed
+[2026-07-29T16:35:00.576Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T16:35:00.696Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T16:35:00.700Z] INFO: Starting Telegram inactive check job
+[2026-07-29T16:35:00.701Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T16:35:00.815Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T16:35:00.816Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T16:35:00.817Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T16:35:00.818Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T16:40:00.615Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T16:40:01.013Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T16:40:01.257Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T16:40:01.258Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T16:45:00.518Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T16:45:00.657Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T16:45:00.667Z] INFO: Starting Telegram inactive check job
+[2026-07-29T16:45:00.677Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T16:45:00.772Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T16:45:00.774Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T16:45:05.591Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T16:45:05.595Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T16:50:00.163Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T16:50:00.191Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T16:50:00.197Z] INFO: Starting Telegram inactive check job
+[2026-07-29T16:50:00.200Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T16:50:00.204Z] INFO: Starting WiFi alert check job
+[2026-07-29T16:50:00.327Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T16:50:00.328Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T16:50:00.330Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T16:50:00.331Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T16:50:02.853Z] INFO: [WIFI ALERT] All checks completed {"checked":0,"skipped":3,"alertsCreated":0,"alertsUpdated":0,"alertsResolved":0,"emailsSent":0,"emailErrors":[],"errors":[],"offlineAlertsCreated":0,"wifiOffAlertsCreated":0,"disconnectedAlertsCreated":0,"notificationsCreated":0}
+[2026-07-29T16:50:02.854Z] INFO: WiFi alert check job completed
+[2026-07-29T16:55:00.291Z] INFO: Starting WhatsApp inactive check job
+[2026-07-29T16:55:00.332Z] INFO: [WhatsApp Cron] Processing inactive messages...
+[2026-07-29T16:55:00.354Z] INFO: Starting Telegram inactive check job
+[2026-07-29T16:55:00.355Z] INFO: [Telegram Cron] Processing inactive messages...
+[2026-07-29T16:55:00.419Z] INFO: [WhatsApp Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T16:55:00.422Z] INFO: WhatsApp inactive check completed: 0 messages processed, 0 SIMs marked inactive
+[2026-07-29T16:55:00.425Z] INFO: [Telegram Cron] Processed 0 messages, updated 0 SIMs
+[2026-07-29T16:55:00.426Z] INFO: Telegram inactive check completed: 0 messages processed, 0 SIMs marked inactive

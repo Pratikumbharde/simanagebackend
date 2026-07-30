@@ -56,14 +56,14 @@ const PaymentSchema = new Schema({
     sparse: true,
   },
 
-  // Plan details at time of purchase
+  // Plan details at time of purchase (optional for recharge payments)
   planName: {
     type: String,
-    required: true,
+    required: false,
   },
   planDuration: {
     type: Number,
-    required: true, // in days
+    required: false, // in days; not required for one-time recharge payments
   },
 
   // Amount details
@@ -77,11 +77,11 @@ const PaymentSchema = new Schema({
   },
   billingCycle: {
     type: String,
-    enum: ['monthly', 'yearly'],
+    enum: ['monthly', 'yearly', 'one_time'],
     required: true,
   },
 
-  // Razorpay IDs
+  // Razorpay IDs (used for subscription payments)
   razorpayOrderId: {
     type: String,
     sparse: true,
@@ -102,11 +102,10 @@ const PaymentSchema = new Schema({
     default: 'razorpay',
   },
 
-  // PayU IDs
+  // PayU IDs (used for recharge payments)
   payuTxnId: {
     type: String,
     sparse: true,
-    index: true,
   },
   payuMihpayId: {
     type: String,
@@ -120,19 +119,19 @@ const PaymentSchema = new Schema({
   // Payment status
   status: {
     type: String,
-    enum: ['created', 'pending', 'completed', 'failed', 'refunded'],
+    enum: ['created', 'pending', 'completed', 'failed', 'refunded', 'cancelled'],
     default: 'created',
     index: true,
   },
 
-  // Payment method (from Razorpay)
+  // Payment method (from Razorpay or PayU)
   paymentMethod: {
     type: String,
     enum: ['card', 'netbanking', 'wallet', 'upi', 'emi', 'card_emi', 'other'],
     sparse: true,
   },
 
-  // Bank/Card info (from Razorpay)
+  // Bank/Card info (from Razorpay or PayU)
   bank: String,
   wallet: String,
   vpa: String, // UPI ID
@@ -144,6 +143,7 @@ const PaymentSchema = new Schema({
   paidAt: Date,
   failedAt: Date,
   refundedAt: Date,
+  cancelledAt: Date,
 
   // Refund details
   refundAmount: Number,
@@ -165,7 +165,7 @@ const PaymentSchema = new Schema({
 // Indexes
 PaymentSchema.index({ companyId: 1, status: 1 });
 PaymentSchema.index({ createdAt: -1 });
-// razorpayOrderId index is already created by index: true in schema definition
+PaymentSchema.index({ payuTxnId: 1 }, { unique: true, sparse: true });
 
 // Generate invoice number before saving
 PaymentSchema.pre('save', async function(next) {
@@ -223,7 +223,7 @@ PaymentSchema.statics.getMonthlyRevenue = async function(year, month) {
   return result[0] || { total: 0, count: 0 };
 };
 
-// Instance methods
+// Instance methods — Razorpay (for subscription payments)
 PaymentSchema.methods.markCompleted = function(paymentData) {
   this.status = 'completed';
   this.razorpayPaymentId = paymentData.razorpay_payment_id;
@@ -239,6 +239,7 @@ PaymentSchema.methods.markCompleted = function(paymentData) {
   return this.save();
 };
 
+// Instance methods — PayU (for recharge payments)
 PaymentSchema.methods.markCompletedFromPayu = function(payuData) {
   this.status = 'completed';
   this.payuMihpayId = payuData.mihpayid || '';
@@ -253,8 +254,15 @@ PaymentSchema.methods.markCompletedFromPayu = function(payuData) {
 
 PaymentSchema.methods.markFailed = function(reason) {
   this.status = 'failed';
-  this.notes = reason;
+  this.notes = (this.notes ? this.notes + ' ' : '') + reason;
   this.failedAt = new Date();
+  return this.save();
+};
+
+PaymentSchema.methods.markCancelled = function(reason) {
+  this.status = 'cancelled';
+  this.notes = (this.notes ? this.notes + ' ' : '') + reason;
+  this.cancelledAt = new Date();
   return this.save();
 };
 

@@ -364,6 +364,20 @@ class CallAutomationController {
       next(error);
     }
   }
+
+  /**
+   * Get connection status for each target SIM in the authenticated user's company
+   * GET /api/call-automation/connection-status
+   */
+  async getConnectionStatus(req, res, next) {
+    try {
+      const callAttemptController = require('../callAttempt/callAttempt.controller');
+      return callAttemptController.getConnectionStatus(req, res, next);
+    } catch (error) {
+      logger.error('[CALL AUTOMATION CONTROLLER] Error delegating to call attempt controller:', error);
+      next(error);
+    }
+  }
 }
 
 module.exports = new CallAutomationController();

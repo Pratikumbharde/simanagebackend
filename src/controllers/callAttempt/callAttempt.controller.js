@@ -34,6 +34,24 @@ class CallAttemptController {
       next(error);
     }
   }
+
+  /**
+   * Get connection status for each target SIM in the authenticated user's company.
+   * Returns whether each target is "connected" or "not_connected" based on the latest call attempt.
+   * GET /api/call-automation/connection-status
+   */
+  async getConnectionStatus(req, res, next) {
+    try {
+      const companyId = req.companyId || req.user.companyId;
+
+      const result = await callAttemptService.getConnectionStatus(companyId);
+
+      return successResponse(res, result);
+    } catch (error) {
+      logger.error('[CallAttemptController] Error getting connection status:', error);
+      next(error);
+    }
+  }
 }
 
 module.exports = new CallAttemptController();

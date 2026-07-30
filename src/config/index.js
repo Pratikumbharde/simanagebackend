@@ -43,8 +43,15 @@ module.exports = {
     verifyApiUrl: process.env.PAYU_IS_PRODUCTION === 'true'
       ? 'https://info.payu.in/merchant/postservice.php?form=2'
       : 'https://test.payu.in/merchant/postservice.php?form=2',
-    successUrl: process.env.PAYU_SUCCESS_URL || (process.env.FRONTEND_URL || 'http://localhost:5173') + '/payment/success',
-    failureUrl: process.env.PAYU_FAILURE_URL || (process.env.FRONTEND_URL || 'http://localhost:5173') + '/payment/failure',
+    // These URLs are where PayU sends POST requests after payment.
+    // They MUST point to the backend API, not the frontend.
+    // The backend controller then redirects the browser to the frontend.
+    successUrl: process.env.PAYU_SUCCESS_URL || (process.env.BACKEND_URL || 'http://localhost:5000') + '/api/payu/success',
+    failureUrl: process.env.PAYU_FAILURE_URL || (process.env.BACKEND_URL || 'http://localhost:5000') + '/api/payu/failure',
+    cancelUrl: process.env.PAYU_CANCEL_URL || (process.env.BACKEND_URL || 'http://localhost:5000') + '/api/payu/cancel',
+    // Frontend URLs for browser redirect after backend processing
+    frontendSuccessUrl: (process.env.FRONTEND_URL || 'http://localhost:5173') + '/payment/success',
+    frontendFailureUrl: (process.env.FRONTEND_URL || 'http://localhost:5173') + '/payment/failure',
     bbps: {
       clientId: process.env.PAYU_BBPS_CLIENT_ID || '',
       clientSecret: process.env.PAYU_BBPS_CLIENT_SECRET || '',
