@@ -329,12 +329,6 @@ class EmailService {
     this.transporter = null;
     this.isConfigured = false;
     this.connectionVerified = false;
-    // HTTP API support (works on port 443, not blocked by Render)
-    this.useHttpApi = false;
-    this.httpApiKey = null;
-    this.httpApiProvider = null; // 'brevo' or 'sendgrid'
-    // Bypass email for testing (set BYPASS_EMAIL=true)
-    this.bypassEmail = process.env.BYPASS_EMAIL === 'true';
     this.init();
   }
 
@@ -345,10 +339,6 @@ class EmailService {
     const emailPass = config.email.pass ? config.email.pass.replace(/\s/g, '') : null;
     const emailFrom = config.email.from;
 
-    // Check for HTTP API (Brevo/SendGrid) - works on port 443
-    const emailApiKey = process.env.EMAIL_API_KEY;
-    const emailApiProvider = process.env.EMAIL_API_PROVIDER || 'brevo';
-
     logger.info('Email configuration check', {
       hasHost: !!emailHost,
       host: emailHost,
@@ -356,36 +346,13 @@ class EmailService {
       hasUser: !!emailUser,
       hasPass: !!emailPass,
       hasFrom: !!emailFrom,
-      hasApiKey: !!emailApiKey,
-      apiProvider: emailApiKey ? emailApiProvider : null,
-      bypassEmail: this.bypassEmail,
     });
 
-    // If bypass is enabled, skip all email configuration
-    if (this.bypassEmail) {
-      this.isConfigured = true;
-      logger.info('Email BYPASS enabled - emails will return success without sending');
-      return;
-    }
-
-    // Prefer HTTP API if API key is set (works on port 443)
-    if (emailApiKey) {
-      this.useHttpApi = true;
-      this.httpApiKey = emailApiKey;
-      this.httpApiProvider = emailApiProvider.toLowerCase();
-      this.fromEmail = emailFrom || emailUser;
-      this.isConfigured = true;
-      logger.info(`Email service configured with HTTP API (${this.httpApiProvider}) - will work on Render`);
-      return;
-    }
-
-    // Fall back to SMTP if no API key
     if (!emailHost || !emailUser || !emailPass) {
       logger.warn('Email configuration is incomplete. Email notifications will be disabled.', {
         hasHost: !!emailHost,
         hasUser: !!emailUser,
         hasPass: !!emailPass,
-        hint: 'Set EMAIL_API_KEY for Brevo/SendGrid (works on Render) or set BYPASS_EMAIL=true for testing',
       });
       return;
     }
@@ -410,26 +377,15 @@ class EmailService {
   }
 
   verifyConnectionAsync() {
-    // Skip for HTTP API
-    if (this.useHttpApi) {
-      logger.info('Using HTTP API for email - no connection verification needed');
-      return;
-    }
-
     this.verifyConnection().catch(err => {
       logger.warn('Email connection could not be established. Email delivery may fail.', {
         error: err.message,
         code: err.code,
-        note: 'On cloud platforms (Render, Heroku, etc.), SMTP ports are often blocked. Set EMAIL_API_KEY for Brevo/SendGrid HTTP API.',
       });
     });
   }
 
   async verifyConnection() {
-    if (this.useHttpApi) {
-      return true;
-    }
-
     if (!this.transporter) {
       logger.warn('Cannot verify email connection: transporter not initialized');
       return false;
@@ -445,7 +401,6 @@ class EmailService {
         logger.warn('Email connection timeout - SMTP may be blocked on this platform', {
           host: config.email.host,
           port: config.email.port,
-          solution: 'Set EMAIL_API_KEY for Brevo (smtp-relay.brevo.com) or SendGrid HTTP API',
         });
       } else if (error.message.includes('Invalid login') || error.message.includes('535') || error.code === 'EAUTH') {
         logger.error('GMAIL AUTHENTICATION ERROR - Please fix:');
@@ -462,129 +417,13 @@ class EmailService {
     }
   }
 
-  /**
-   * Send email using HTTP API (Brevo/SendGrid)
-   * Works on port 443 - not blocked by Render
-   */
-  async sendEmailViaHttpApi({ to, subject, html, text }) {
-    const https = require('https');
-
-    if (this.httpApiProvider === 'sendgrid') {
-      // SendGrid API
-      return new Promise((resolve, reject) => {
-        const data = JSON.stringify({
-          personalizations: [{ to: [{ email: to }] }],
-          from: { email: this.fromEmail },
-          subject,
-          content: [
-            { type: 'text/html', value: html },
-            { type: 'text/plain', value: text || html.replace(/<[^>]*>/g, '') }
-          ]
-        });
-
-        const options = {
-          hostname: 'api.sendgrid.com',
-          port: 443,
-          path: '/v3/mail/send',
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${this.httpApiKey}`,
-            'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(data)
-          }
-        };
-
-        const req = https.request(options, (res) => {
-          let body = '';
-          res.on('data', chunk => body += chunk);
-          res.on('end', () => {
-            if (res.statusCode >= 200 && res.statusCode < 300) {
-              logger.info('Email sent via SendGrid API', { to, subject, statusCode: res.statusCode });
-              resolve({ success: true, messageId: `sendgrid-${Date.now()}` });
-            } else {
-              logger.error('SendGrid API error', { to, subject, statusCode: res.statusCode, body });
-              resolve({ success: false, error: `SendGrid error: ${res.statusCode}` });
-            }
-          });
-        });
-
-        req.on('error', (error) => {
-          logger.error('SendGrid API request error', { error: error.message, to, subject });
-          resolve({ success: false, error: error.message });
-        });
-
-        req.write(data);
-        req.end();
-      });
-    } else {
-      // Brevo (formerly Sendinblue) API
-      return new Promise((resolve, reject) => {
-        const data = JSON.stringify({
-          sender: { email: this.fromEmail },
-          to: [{ email: to }],
-          subject,
-          htmlContent: html,
-          textContent: text || html.replace(/<[^>]*>/g, '')
-        });
-
-        const options = {
-          hostname: 'api.brevo.com',
-          port: 443,
-          path: '/v3/smtp/email',
-          method: 'POST',
-          headers: {
-            'accept': 'application/json',
-            'content-type': 'application/json',
-            'api-key': this.httpApiKey,
-            'Content-Length': Buffer.byteLength(data)
-          }
-        };
-
-        const req = https.request(options, (res) => {
-          let body = '';
-          res.on('data', chunk => body += chunk);
-          res.on('end', () => {
-            if (res.statusCode >= 200 && res.statusCode < 300) {
-              logger.info('Email sent via Brevo API', { to, subject, statusCode: res.statusCode });
-              resolve({ success: true, messageId: `brevo-${Date.now()}` });
-            } else {
-              logger.error('Brevo API error', { to, subject, statusCode: res.statusCode, body });
-              resolve({ success: false, error: `Brevo error: ${res.statusCode}` });
-            }
-          });
-        });
-
-        req.on('error', (error) => {
-          logger.error('Brevo API request error', { error: error.message, to, subject });
-          resolve({ success: false, error: error.message });
-        });
-
-        req.write(data);
-        req.end();
-      });
-    }
-  }
-
   async sendEmail({ to, subject, html, text }) {
-    // If bypass is enabled, return success without sending
-    if (this.bypassEmail) {
-      logger.info('Email BYPASSED (not sent)', { to, subject, note: 'Set BYPASS_EMAIL=false to send real emails' });
-      return { success: true, messageId: `bypassed-${Date.now()}`, bypassed: true };
-    }
-
-    // Use HTTP API if configured
-    if (this.useHttpApi && this.httpApiKey) {
-      logger.info('Sending email via HTTP API', { to, subject, provider: this.httpApiProvider });
-      return await this.sendEmailViaHttpApi({ to, subject, html, text });
-    }
-
-    // Fall back to SMTP
     if (!this.isConfigured || !this.transporter) {
-      logger.warn('Email not sent: Email service not configured', { to, subject });
+      logger.warn('[SMTP] Email not sent: service not configured', { to, subject });
       return { success: false, error: 'Email service not configured' };
     }
     if (!to || !to.includes('@')) {
-      logger.error('Invalid Email ID', { to });
+      logger.error('[SMTP] Invalid email address', { to });
       return { success: false, error: 'Invalid Email ID' };
     }
     try {
@@ -595,12 +434,12 @@ class EmailService {
         html,
         text: text || html.replace(/<[^>]*>/g, ''),
       };
-      logger.info('Sending email via SMTP', { to, subject });
+      logger.info(`[SMTP] Sending email to="${to}" subject="${subject}" from="${mailOptions.from}"`);
       const info = await this.transporter.sendMail(mailOptions);
-      logger.info('Email sent successfully', { messageId: info.messageId, to, subject, response: info.response });
+      logger.info(`[SMTP] Email sent successfully to="${to}" messageId="${info.messageId}" response="${info.response}"`);
       return { success: true, messageId: info.messageId };
     } catch (error) {
-      logger.error('Failed to send email', { error: error.message, to, subject, code: error.code });
+      logger.error(`[SMTP] Failed to send email to="${to}" subject="${subject}" error="${error.message}" code=${error.code || 'N/A'}`, { stack: error.stack });
       return { success: false, error: error.message };
     }
   }
@@ -872,15 +711,20 @@ class EmailService {
 
     const html = baseLayout({
       headerBg: `linear-gradient(135deg, #1A56DB 0%, #1E429F 100%)`,
-      // headerIcon: '&#128241;',
       headerTitle: 'One-Time Password',
       headerSubtitle: 'Login verification for SIM Management',
       bodyContent: body,
       footerNote: 'This code expires in 5 minutes. Do not share it with anyone.',
     });
 
-    console.log('OTP:', otp);
-    return this.sendEmail({ to: email, subject, html });
+    logger.info(`[SMTP] Sending OTP email to ${email}`);
+    const result = await this.sendEmail({ to: email, subject, html });
+    if (result.success) {
+      logger.info(`[SMTP] OTP email sent successfully to ${email} (messageId=${result.messageId || 'N/A'})`);
+    } else {
+      logger.error(`[SMTP] OTP email FAILED for ${email}: ${result.error}`);
+    }
+    return result;
   }
 
   // ─── SIM Unassignment Email ──────────────────────────────────────────────────
@@ -1435,9 +1279,9 @@ class EmailService {
     const simCards = [];
     if (sims.total !== undefined) {
       simCards.push(
-        infoCard('Total SIMs', sims.total, { bg: COLORS.infoBg, border: COLORS.infoBdr }),
-        infoCard('Active', sims.active || 0, { bg: COLORS.successBg, border: COLORS.successBdr, textColor: COLORS.success }),
-        infoCard('Inactive', sims.inactive || 0, { bg: COLORS.dangerBg, border: COLORS.dangerBdr, textColor: COLORS.danger }),
+        infoCard([['Total SIMs', `${sims.total}`]], { bg: COLORS.infoBg, border: COLORS.infoBdr }),
+        infoCard([['Active', `${sims.active || 0}`]], { bg: COLORS.successBg, border: COLORS.successBdr, textColor: COLORS.success }),
+        infoCard([['Inactive', `${sims.inactive || 0}`]], { bg: COLORS.dangerBg, border: COLORS.dangerBdr, textColor: COLORS.danger }),
       );
     }
 
@@ -1446,9 +1290,9 @@ class EmailService {
     if (recharges.monthlyTotal !== undefined) {
       const currency = '₹';
       rechargeCards.push(
-        infoCard('Monthly Spend', `${currency}${(recharges.monthlyTotal || 0).toLocaleString()}`, { bg: COLORS.infoBg, border: COLORS.infoBdr }),
-        infoCard('Recharges', recharges.monthlyCount || 0, { bg: COLORS.successBg, border: COLORS.successBdr, textColor: COLORS.success }),
-        infoCard('Overdue', recharges.overdue || 0, { bg: COLORS.dangerBg, border: COLORS.dangerBdr, textColor: COLORS.danger }),
+        infoCard([['Monthly Spend', `${currency}${(recharges.monthlyTotal || 0).toLocaleString()}`]], { bg: COLORS.infoBg, border: COLORS.infoBdr }),
+        infoCard([['Recharges', `${recharges.monthlyCount || 0}`]], { bg: COLORS.successBg, border: COLORS.successBdr, textColor: COLORS.success }),
+        infoCard([['Overdue', `${recharges.overdue || 0}`]], { bg: COLORS.dangerBg, border: COLORS.dangerBdr, textColor: COLORS.danger }),
       );
     }
 
@@ -1458,8 +1302,8 @@ class EmailService {
       const totalCalls = Object.values(callStats).reduce((sum, s) => sum + (s.count || 0), 0);
       const totalDuration = Object.values(callStats).reduce((sum, s) => sum + (s.totalDuration || 0), 0);
       callCards.push(
-        infoCard('Total Calls', totalCalls, { bg: COLORS.infoBg, border: COLORS.infoBdr }),
-        infoCard('Total Duration', `${Math.round(totalDuration / 60)} min`, { bg: COLORS.successBg, border: COLORS.successBdr, textColor: COLORS.success }),
+        infoCard([['Total Calls', `${totalCalls}`]], { bg: COLORS.infoBg, border: COLORS.infoBdr }),
+        infoCard([['Total Duration', `${Math.round(totalDuration / 60)} min`]], { bg: COLORS.successBg, border: COLORS.successBdr, textColor: COLORS.success }),
       );
     }
 
@@ -1513,7 +1357,14 @@ class EmailService {
       footerNote: `You're receiving this because you have a scheduled report configured for ${scheduleDescription}.`,
     });
 
-    return this.sendEmail({ to: toEmail, subject: `${reportTypeLabel} — ${companyName} [${new Date().toLocaleDateString()}]`, html });
+    logger.info(`[SMTP] Preparing scheduled report email: to="${toEmail}" company="${companyName}" type="${reportTypeLabel}"`);
+    const result = await this.sendEmail({ to: toEmail, subject: `${reportTypeLabel} — ${companyName} [${new Date().toLocaleDateString()}]`, html });
+    if (result.success) {
+      logger.info(`[SMTP] Scheduled report email SENT to="${toEmail}" messageId="${result.messageId || 'N/A'}"`);
+    } else {
+      logger.error(`[SMTP] Scheduled report email FAILED to="${toEmail}" error="${result.error}"`);
+    }
+    return result;
   }
 
   isReady() {

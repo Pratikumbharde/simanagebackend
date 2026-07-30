@@ -325,44 +325,73 @@ class CronService {
         const reportScheduleService = require('../services/reportSchedule/reportSchedule.service');
 
         const now = new Date();
+        logger.info(`[Report Delivery] Cron tick at ${now.toISOString()}`);
 
-        // Find all active schedules
-        const schedules = await ReportSchedule.find({ isActive: true }).populate('companyId', 'name isActive');
+        // Use .lean() for the initial query — plain JS objects, no Mongoose document caching issues
+        // Then re-fetch a fresh document only for schedules that need to send
+        const schedules = await ReportSchedule.find({ isActive: true }).populate('companyId', 'name isActive').lean();
+
+        if (schedules.length === 0) {
+          logger.info('[Report Delivery] No active schedules found — skipping');
+          return;
+        }
+
+        logger.info(`[Report Delivery] Found ${schedules.length} active schedule(s), evaluating each...`);
 
         let sentCount = 0;
-        let skipCount = 0;
+        let skipInactiveCount = 0;
+        let skipNotDueCount = 0;
         let errorCount = 0;
 
         for (const schedule of schedules) {
+          const label = schedule.email || schedule._id;
           try {
-            // Skip if company is not active
+            // Skip if company is not active or not found
             if (!schedule.companyId || !schedule.companyId.isActive) {
-              skipCount++;
+              skipInactiveCount++;
+              logger.info(`[Report Delivery] ${label}: SKIPPED — company inactive or not found (companyId=${schedule.companyId})`);
               continue;
             }
 
-            // Check if this schedule should fire now
+            logger.info(`[Report Delivery] ${label}: evaluating (time=${schedule.time}, types=[${(schedule.schedules || []).join(',')}], lastSent=${schedule.lastSentAt || 'never'}, lastStatus=${schedule.lastSendStatus || 'none'})`);
+
+            // Check if this schedule should fire now (using the lean object for evaluation)
             const shouldSend = reportScheduleService.shouldSendNow(schedule, now);
             if (!shouldSend) {
-              skipCount++;
+              skipNotDueCount++;
               continue;
             }
 
+            // Re-fetch a fresh Mongoose document for sending — avoids stale document issues
+            const freshSchedule = await ReportSchedule.findById(schedule._id);
+            if (!freshSchedule) {
+              logger.warn(`[Report Delivery] ${label}: schedule was deleted, skipping`);
+              skipNotDueCount++;
+              continue;
+            }
+
+            // Populate companyId on the fresh document for sendScheduledReport
+            await freshSchedule.populate('companyId', 'name isActive');
+
             // Send the report
-            await reportScheduleService.sendScheduledReport(schedule);
-            sentCount++;
+            logger.info(`[Report Delivery] ${label}: sending report...`);
+            const result = await reportScheduleService.sendScheduledReport(freshSchedule);
+            if (result.success) {
+              sentCount++;
+              logger.info(`[Report Delivery] ${label}: ✓ report sent successfully`);
+            } else {
+              errorCount++;
+              logger.error(`[Report Delivery] ${label}: ✗ send failed — ${result.message}`);
+            }
           } catch (error) {
             errorCount++;
-            logger.error(`Failed to send scheduled report to ${schedule.email}:`, error.message);
-            // Continue with next schedule even if one fails
+            logger.error(`[Report Delivery] ${label}: ✗ unhandled error — ${error.message}`, { stack: error.stack });
           }
         }
 
-        if (sentCount > 0 || errorCount > 0) {
-          logger.info(`Report delivery job completed: ${sentCount} sent, ${skipCount} skipped, ${errorCount} errors`);
-        }
+        logger.info(`[Report Delivery] Job complete: ${sentCount} sent, ${skipNotDueCount} not-due, ${skipInactiveCount} inactive-company, ${errorCount} errors (total: ${schedules.length} schedules)`);
       } catch (error) {
-        logger.error('Report delivery job failed:', error);
+        logger.error('[Report Delivery] Cron job failed:', error);
       }
     });
   }

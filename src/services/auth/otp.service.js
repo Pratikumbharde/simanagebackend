@@ -13,9 +13,6 @@ class OTPService {
     this.MAX_OTP_ATTEMPTS = 5;
     this.OTP_COOLDOWN_SECONDS = 10;
     this.OTP_SALT_ROUNDS = 10; // For hashing OTP
-    // Bypass email for testing (set BYPASS_EMAIL_OTP=true in environment)
-    // ONLY use this for automated testing - NEVER in production
-    this.BYPASS_EMAIL = process.env.BYPASS_EMAIL_OTP === 'true';
   }
 
   /**
@@ -44,18 +41,20 @@ class OTPService {
   }
 
   /**
-   * Send OTP to user's email
-   * [EMAIL OTP FIX] - Changed from mobile-based to email-based OTP authentication
-   * The OTP is sent ONLY via email and NOT returned in the response (unless BYPASS_EMAIL_OTP=true)
+   * Send OTP to user's email via SMTP
+   * Generates a 6-digit OTP, hashes it with bcrypt, saves to user record,
+   * and sends via emailService.sendOTPEmail().
+   * The OTP is NEVER returned in the API response.
    */
   async sendOTP(email) {
     try {
+      logger.info(`[OTP] Send request for email: ${email}`);
+
       // Find user by email
       const user = await User.findOne({ email: email.toLowerCase() });
 
-      // If user not found
       if (!user) {
-        logger.warn('[EMAIL OTP FIX] User not found for email', { email });
+        logger.warn(`[OTP] User not found for email: ${email}`);
         return {
           success: false,
           message: 'No account found with this email',
@@ -64,7 +63,7 @@ class OTPService {
 
       // Check if user is active
       if (!user.isActive) {
-        logger.warn('[EMAIL OTP FIX] User account is deactivated', { email });
+        logger.warn(`[OTP] Account deactivated for email: ${email}`);
         return {
           success: false,
           message: 'Your account has been deactivated. Please contact administrator.',
@@ -78,6 +77,7 @@ class OTPService {
 
         if (timeSinceLastOtp < cooldownMs) {
           const remainingSeconds = Math.ceil((cooldownMs - timeSinceLastOtp) / 1000);
+          logger.info(`[OTP] Cooldown active for ${email}: ${remainingSeconds}s remaining`);
           return {
             success: false,
             message: `Please wait ${remainingSeconds} seconds before requesting a new OTP`,
@@ -89,80 +89,44 @@ class OTPService {
       // Generate OTP
       const otp = this.generateOTP();
       const otpExpires = new Date(Date.now() + (this.OTP_EXPIRY_MINUTES * 60 * 1000));
-      const now = new Date();
 
-      // [EMAIL OTP FIX] - Hash OTP before storing for security
+      // Hash OTP before storing for security
       const hashedOTP = await this.hashOTP(otp);
 
       // Save OTP to user record
       user.otp = hashedOTP;
       user.otpExpires = otpExpires;
       user.otpAttempts = 0;
-      user.lastOtpSentAt = now;
+      user.lastOtpSentAt = new Date();
       await user.save();
 
-      logger.info('[EMAIL OTP FIX] OTP generated and saved', {
+      logger.info(`[OTP] OTP generated and saved for ${email} (userId=${user._id}, expires=${otpExpires.toISOString()})`);
+
+      // Send OTP via SMTP email
+      logger.info(`[OTP] Sending OTP email to ${email}...`);
+      const emailResult = await emailService.sendOTPEmail(
         email,
-        userId: user._id,
-        expiresAt: otpExpires
-      });
+        otp,
+        user.mobileNumber || user.phone || ''
+      );
 
-      // Log OTP to console for testing/development (remove in production)
-      console.log(`[OTP] Email: ${email}, OTP: ${otp}`);
-
-      // Check if email bypass is EXPLICITLY enabled (set BYPASS_EMAIL_OTP=true in .env)
-      // This should ONLY be used for automated testing purposes
-      if (this.BYPASS_EMAIL) {
-        logger.info('[EMAIL OTP FIX] Email bypass enabled - returning OTP directly', { email });
-        return {
-          success: true,
-          message: 'OTP generated (email bypassed - for testing only)',
-          otp: otp, // Only when bypass is enabled
-          expiresAt: otpExpires,
-          bypassed: true,
-        };
-      }
-
-      // Send OTP via email
-      try {
-        const emailResult = await emailService.sendOTPEmail(email, otp, user.mobileNumber || user.phone || '');
-        console.log("Login Otp : ", otp)
-        if (!emailResult.success) {
-          logger.error('[EMAIL OTP FIX] Failed to send OTP email', {
-            email,
-            error: emailResult.error
-          });
-
-          return {
-            success: false,
-            message: 'Failed to send OTP email. Please try again or contact support.',
-          };
-        }
-
-        logger.info('[EMAIL OTP FIX] OTP sent successfully via email', {
-          email,
-          userId: user._id
-        });
-
-        // SUCCESS - OTP sent via email, do NOT return OTP in response
-        return {
-          success: true,
-          message: 'OTP sent to your email. Please check your inbox.',
-          expiresAt: otpExpires,
-        };
-      } catch (emailError) {
-        logger.error('[EMAIL OTP FIX] Email sending error', {
-          email,
-          error: emailError.message
-        });
-
+      if (!emailResult.success) {
+        logger.error(`[OTP] Email send FAILED for ${email}: ${emailResult.error}`);
         return {
           success: false,
-          message: 'Failed to send OTP. Please try again later.',
+          message: 'Failed to send OTP email. Please try again or contact support.',
         };
       }
+
+      logger.info(`[OTP] Email sent successfully to ${email} (messageId=${emailResult.messageId || 'N/A'})`);
+
+      return {
+        success: true,
+        message: 'OTP sent to your email. Please check your inbox.',
+        expiresAt: otpExpires,
+      };
     } catch (error) {
-      logger.error('[EMAIL OTP FIX] Error sending OTP', { email, error: error.message });
+      logger.error(`[OTP] Unhandled error for ${email}: ${error.message}`, { stack: error.stack });
       throw error;
     }
   }

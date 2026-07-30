@@ -128,5 +128,6 @@ router.put('/:id', idValidation, updateValidation, validate, reportScheduleContr
 router.patch('/:id/toggle', idValidation, validate, reportScheduleController.toggle);
 router.delete('/:id', idValidation, validate, reportScheduleController.delete);
 router.post('/test', reportScheduleController.sendTest);
+router.post('/debug-email', reportScheduleController.debugEmail);
 
 module.exports = router;
