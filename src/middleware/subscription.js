@@ -84,6 +84,16 @@ const checkSubscriptionLimit = (feature) => {
             });
           }
           break;
+
+        case 'cameras':
+          if (limits.maxCameras !== -1) {
+            const Camera = require('../models/cctv/camera.model');
+            const cameraCount = await Camera.countDocuments({ companyId: req.user.companyId, isActive: true });
+            if (cameraCount >= limits.maxCameras) {
+              throw new SubscriptionLimitError('cameras', limits.maxCameras);
+            }
+          }
+          break;
       }
 
       req.subscription = subscription;
@@ -150,6 +160,7 @@ const checkSubscriptionFeature = (feature) => {
         wifiMonitor: 'WiFi Monitor',
         callAutomation: 'Call Automation',
         smsLogs: 'SMS Logs',
+        cctvMonitoring: 'CCTV Monitoring',
       };
 
       if (!features[feature]) {

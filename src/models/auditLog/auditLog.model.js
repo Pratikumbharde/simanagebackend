@@ -22,7 +22,7 @@ const AuditLogSchema = new Schema({
     required: [true, 'Module is required'],
     trim: true,
     uppercase: true,
-    enum: ['AUTH', 'SIM', 'RECHARGE', 'USER', 'REPORT', 'COMPANY', 'SUBSCRIPTION', 'PAYMENT', 'CALL_LOG', 'NOTIFICATION', 'DASHBOARD', 'SETTINGS', 'WHATSAPP', 'TELEGRAM', 'WIFI', 'CALL_AUTOMATION', 'SMS', 'DEVICE', 'LANDING_CONTENT'],
+    enum: ['AUTH', 'SIM', 'RECHARGE', 'USER', 'REPORT', 'COMPANY', 'SUBSCRIPTION', 'PAYMENT', 'CALL_LOG', 'NOTIFICATION', 'DASHBOARD', 'SETTINGS', 'WHATSAPP', 'TELEGRAM', 'WIFI', 'CALL_AUTOMATION', 'SMS', 'DEVICE', 'LANDING_CONTENT', 'CCTV'],
     index: true,
   },
 

@@ -449,15 +449,39 @@ class SubscriptionService {
 
   async updatePlan(planId, updateData) {
     // Validate plan name — only letters, spaces, hyphens, and basic punctuation allowed
+
     if (updateData.name && /\d/.test(updateData.name)) {
       throw new BadRequestError('Plan name cannot contain numbers');
     }
 
-    const plan = await Subscription.findByIdAndUpdate(
-      planId,
-      updateData,
-      { new: true, runValidators: true }
-    );
+    const existingPlan = await Subscription.findById(planId);
+
+if (!existingPlan) {
+  throw new NotFoundError('Subscription plan');
+}
+
+// Merge features instead of replacing
+if (updateData.features) {
+  updateData.features = {
+    ...existingPlan.features.toObject(),
+    ...updateData.features,
+  };
+}
+
+// Merge limits instead of replacing
+if (updateData.limits) {
+  updateData.limits = {
+    ...existingPlan.limits.toObject(),
+    ...updateData.limits,
+  };
+}
+    console.log("BODY:");
+console.dir(updateData, { depth: null });
+const plan = await Subscription.findByIdAndUpdate(
+  planId,
+  { $set: updateData },
+  { new: true, runValidators: true }
+);
 
     if (!plan) {
       throw new NotFoundError('Subscription plan');

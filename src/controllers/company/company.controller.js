@@ -572,6 +572,45 @@ class CompanyController {
       next(error);
     }
   }
+
+  /**
+   * Update CCTV settings for the company
+   * PUT /api/companies/my/cctv-settings
+   */
+  async updateCctvSettings(req, res, next) {
+    try {
+      const allowedFields = [
+        'defaultCaptureInterval', 'defaultImageQuality', 'defaultResolution',
+        'snapshotRetentionDays', 'notifyCameraOffline', 'notifyCameraOnline',
+        'notifySnapshotFailed', 'notifyAgentOffline',
+      ];
+      const cctvSettings = {};
+      allowedFields.forEach(field => {
+        if (req.body[field] !== undefined) {
+          cctvSettings[`settings.cctv.${field}`] = req.body[field];
+        }
+      });
+
+      if (Object.keys(cctvSettings).length === 0) {
+        return res.status(400).json({ success: false, message: 'No valid settings provided' });
+      }
+
+      const Company = require('../../models/company/company.model');
+      const company = await Company.findByIdAndUpdate(
+        req.user.companyId,
+        { $set: cctvSettings },
+        { new: true, runValidators: true }
+      );
+
+      if (!company) {
+        return res.status(404).json({ success: false, message: 'Company not found' });
+      }
+
+      return successResponse(res, company.settings.cctv, 'CCTV settings updated successfully.');
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new CompanyController();

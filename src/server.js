@@ -43,6 +43,14 @@ const payuRoutes = require('./routes/payu/payu.routes'); // [PAYU PAYMENT GATEWA
 const rechargePlanRoutes = require('./routes/rechargePlan/rechargePlan.routes'); // [RECHARGE PLANS]
 const { seed: seedRechargePlans } = require('./seeders/rechargePlans.seeder'); // [RECHARGE PLANS]
 
+// CCTV Monitoring routes
+const officeRoutes = require('./routes/cctv/office.routes');
+const cameraRoutes = require('./routes/cctv/camera.routes');
+const agentRoutes = require('./routes/cctv/agent.routes');
+const snapshotRoutes = require('./routes/cctv/snapshot.routes');
+const alertRoutes = require('./routes/cctv/cameraAlert.routes');
+const cctvDashboardRoutes = require('./routes/cctv/dashboard.routes');
+
 // Import middleware
 const errorHandler = require('./middleware/errorHandler');
 
@@ -53,6 +61,14 @@ const Sim = require('./models/sim/sim.model');
 
 // Create Express app
 const app = express();
+
+// Create HTTP server (needed for Socket.IO)
+const http = require('http');
+const server = http.createServer(app);
+
+// Initialize Socket.IO
+const { initializeSocket } = require('./config/socket');
+initializeSocket(server);
 
 // Connect to database
 connectDB().then(async () => {
@@ -168,6 +184,14 @@ app.use('/api/report-schedules', reportScheduleRoutes);
 app.use('/api/payu', payuRoutes); // [PAYU PAYMENT GATEWAY]
 app.use('/api/recharge-plans', rechargePlanRoutes); // [RECHARGE PLANS]
 
+// CCTV Monitoring routes
+app.use('/api/cctv/offices', officeRoutes);
+app.use('/api/cctv/cameras', cameraRoutes);
+app.use('/api/cctv/agents', agentRoutes);
+app.use('/api/cctv/snapshots', snapshotRoutes);
+app.use('/api/cctv/alerts', alertRoutes);
+app.use('/api/cctv/dashboard', cctvDashboardRoutes);
+
 // 404 handler
 app.use((req, res, next) => {
   res.status(404).json({
@@ -181,13 +205,14 @@ app.use(errorHandler);
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`
   ╔═══════════════════════════════════════════════════╗
   ║                                                   ║
   ║   SIM Management SaaS API                        ║
   ║   Server running on port ${PORT}                    ║
   ║   Environment: ${process.env.NODE_ENV || 'development'}                       ║
+  ║   Socket.IO: Enabled                              ║
   ║                                                   ║
   ╚═══════════════════════════════════════════════════╝
   `);
@@ -205,4 +230,4 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
-module.exports = app;
+module.exports = { app, server };

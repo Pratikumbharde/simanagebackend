@@ -76,6 +76,13 @@ const checkCompanyAccess = async (req, res, next) => {
     if (req.user.role === 'super_admin') {
       // super_admin can access any company; set companyId from request if provided
       if (requestedCompanyId) {
+        // Validate that the provided companyId is a valid MongoId
+        if (!requestedCompanyId.match(/^[0-9a-fA-F]{24}$/)) {
+          return res.status(400).json({
+            success: false,
+            message: 'Invalid company ID format',
+          });
+        }
         req.companyId = requestedCompanyId;
       }
       return next();

@@ -6,6 +6,7 @@ const Sim = require('../models/sim/sim.model');
 const Company = require('../models/company/company.model');
 const User = require('../models/auth/user.model');
 const logger = require('../utils/logger');
+const CctvCronService = require('./cctvJobs');
 
 class CronService {
   constructor() {
@@ -68,6 +69,10 @@ class CronService {
     this.scheduleWifiMetricsCleanup();
     this.scheduleReportDelivery();
     this.scheduleStalePaymentCleanup();
+
+    // Initialize CCTV cron jobs
+    const cctvCron = new CctvCronService(this);
+    cctvCron.initJobs();
 
     logger.info('All cron jobs initialized');
   }

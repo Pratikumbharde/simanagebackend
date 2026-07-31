@@ -59,4 +59,19 @@ module.exports = {
       isProduction: process.env.PAYU_IS_PRODUCTION === 'true',
     },
   },
+  cctv: {
+    // Note: Images are now stored directly in MongoDB (imageData Buffer field)
+    // cloudinaryFolder is no longer used for CCTV snapshots
+    snapshotMaxSizeMB: parseInt(process.env.SNAPSHOT_MAX_SIZE_MB) || 10,
+    defaultSnapshotRetentionDays: parseInt(process.env.DEFAULT_SNAPSHOT_RETENTION_DAYS) || 30,
+    agentTokenExpiryDays: parseInt(process.env.AGENT_TOKEN_EXPIRY_DAYS) || 365,
+    heartbeatIntervalSeconds: parseInt(process.env.HEARTBEAT_INTERVAL_SECONDS) || 60,
+    cameraHealthCheckIntervalMinutes: parseInt(process.env.CAMERA_HEALTH_CHECK_INTERVAL_MINUTES) || 10,
+    agentHealthCheckIntervalMinutes: parseInt(process.env.AGENT_HEALTH_CHECK_INTERVAL_MINUTES) || 5,
+    snapshotCleanupCron: process.env.SNAPSHOT_CLEANUP_CRON || '0 3 * * *',
+    alertCleanupCron: process.env.ALERT_CLEANUP_CRON || '0 4 * * 0',
+    defaultCaptureInterval: parseInt(process.env.DEFAULT_CAPTURE_INTERVAL) || 30,
+    defaultImageQuality: parseInt(process.env.DEFAULT_IMAGE_QUALITY) || 80,
+    defaultResolution: process.env.DEFAULT_RESOLUTION || 'original',
+  },
 };

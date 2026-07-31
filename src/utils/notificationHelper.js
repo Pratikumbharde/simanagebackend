@@ -1077,6 +1077,203 @@ class NotificationHelper {
       </div>
     `;
   }
+
+  // ==================== CCTV Notification Methods ====================
+
+  /**
+   * Notify when a camera goes offline
+   * @param {Object} company - Company document
+   * @param {Object} camera - Camera document
+   */
+  async notifyCameraOffline(company, camera) {
+    const User = require('../models/auth/user.model');
+
+    // Get company admins to notify
+    const admins = await User.find({
+      companyId: company._id,
+      role: 'admin',
+      isActive: true,
+    });
+
+    const notificationData = {
+      companyId: company._id,
+      type: 'camera_offline',
+      title: `Camera Offline: ${camera.name}`,
+      message: `Camera "${camera.name}" has gone offline${camera.lastError ? `: ${camera.lastError}` : ''}`,
+      priority: 'high',
+      metadata: {
+        cameraId: camera._id,
+        cameraName: camera.name,
+        lastError: camera.lastError,
+        lastErrorAt: camera.lastErrorAt,
+      },
+      data: { cameraId: camera._id },
+    };
+
+    // Create notifications for all admins
+    for (const admin of admins) {
+      await this.createNotification({
+        ...notificationData,
+        userId: admin._id,
+      });
+    }
+
+    // Also send email to first admin if email notifications are enabled
+    if (admins.length > 0) {
+      const emailData = {
+        to: admins[0].email,
+        subject: `Camera Offline Alert: ${camera.name}`,
+        html: `
+          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
+              <h1 style="margin: 0;">Camera Offline Alert</h1>
+            </div>
+            <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
+              <h2>Hello ${admins[0].name},</h2>
+              <p>A CCTV camera has gone offline and requires attention.</p>
+              <div style="background: #fef2f2; border-left: 4px solid #dc2626; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                <p style="margin: 0; font-size: 16px; font-weight: bold; color: #991b1b;">Camera: ${camera.name}</p>
+                ${camera.lastError ? `<p style="margin: 5px 0 0 0; color: #991b1b;">Error: ${camera.lastError}</p>` : ''}
+                <p style="margin: 5px 0 0 0; color: #6b7280;">Time: ${new Date().toLocaleString()}</p>
+              </div>
+              <p>Please check the camera connection and power supply.</p>
+              <p>Best regards,<br>SIM Management Team</p>
+            </div>
+          </div>
+        `,
+      };
+
+      // Send camera offline email using a wrapper function
+      await this.sendEmailIfEnabled(
+        company._id,
+        async (to, subject, html) => emailService.sendEmail({ to, subject, html }),
+        admins[0].email,
+        emailData.subject,
+        emailData.html
+      );
+    }
+  }
+
+  /**
+   * Notify when a camera comes back online
+   * @param {Object} company - Company document
+   * @param {Object} camera - Camera document
+   */
+  async notifyCameraOnline(company, camera) {
+    const notificationData = {
+      companyId: company._id,
+      type: 'camera_online',
+      title: `Camera Online: ${camera.name}`,
+      message: `Camera "${camera.name}" is back online`,
+      priority: 'medium',
+      metadata: {
+        cameraId: camera._id,
+        cameraName: camera.name,
+      },
+      data: { cameraId: camera._id },
+    };
+
+    // Create company-wide notification
+    await this.createNotification(notificationData);
+  }
+
+  /**
+   * Notify when a snapshot upload fails
+   * @param {Object} company - Company document
+   * @param {Object} camera - Camera document
+   * @param {string} error - Error message
+   */
+  async notifySnapshotFailed(company, camera, error) {
+    const notificationData = {
+      companyId: company._id,
+      type: 'snapshot_failed',
+      title: `Snapshot Failed: ${camera.name}`,
+      message: `Failed to capture snapshot from camera "${camera.name}": ${error}`,
+      priority: 'medium',
+      metadata: {
+        cameraId: camera._id,
+        cameraName: camera.name,
+        error,
+      },
+      data: { cameraId: camera._id },
+    };
+
+    // Create company-wide notification
+    await this.createNotification(notificationData);
+  }
+
+  /**
+   * Notify when an agent goes offline
+   * @param {Object} company - Company document
+   * @param {Object} agent - Agent document
+   */
+  async notifyAgentOffline(company, agent) {
+    const User = require('../models/auth/user.model');
+
+    // Get company admins to notify
+    const admins = await User.find({
+      companyId: company._id,
+      role: 'admin',
+      isActive: true,
+    });
+
+    const notificationData = {
+      companyId: company._id,
+      type: 'agent_offline',
+      title: `Agent Offline: ${agent.name}`,
+      message: `Camera Agent "${agent.name}" has gone offline (last heartbeat: ${agent.lastHeartbeat ? new Date(agent.lastHeartbeat).toLocaleString() : 'never'})`,
+      priority: 'high',
+      metadata: {
+        agentId: agent._id,
+        agentName: agent.name,
+        hostname: agent.hostname,
+        lastHeartbeat: agent.lastHeartbeat,
+      },
+      data: { agentId: agent._id },
+    };
+
+    // Create notifications for all admins
+    for (const admin of admins) {
+      await this.createNotification({
+        ...notificationData,
+        userId: admin._id,
+      });
+    }
+
+    // Send email to first admin if email notifications are enabled
+    if (admins.length > 0) {
+      const emailData = {
+        to: admins[0].email,
+        subject: `Agent Offline Alert: ${agent.name}`,
+        html: `
+          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
+              <h1 style="margin: 0;">Agent Offline Alert</h1>
+            </div>
+            <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
+              <h2>Hello ${admins[0].name},</h2>
+              <p>A Camera Agent has gone offline and requires attention.</p>
+              <div style="background: #fef2f2; border-left: 4px solid #dc2626; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                <p style="margin: 0; font-size: 16px; font-weight: bold; color: #991b1b;">Agent: ${agent.name}</p>
+                <p style="margin: 5px 0 0 0; color: #6b7280;">Hostname: ${agent.hostname || 'Unknown'}</p>
+                <p style="margin: 5px 0 0 0; color: #6b7280;">Last Heartbeat: ${agent.lastHeartbeat ? new Date(agent.lastHeartbeat).toLocaleString() : 'Never'}</p>
+              </div>
+              <p>Please check the agent machine and network connection.</p>
+              <p>Best regards,<br>SIM Management Team</p>
+            </div>
+          </div>
+        `,
+      };
+
+      await this.sendEmailIfEnabled(
+        company._id,
+        async (to, subject, html) => emailService.sendEmail({ to, subject, html }),
+        admins[0].email,
+        emailData.subject,
+        emailData.html
+      );
+    }
+  }
 }
 
 module.exports = new NotificationHelper();

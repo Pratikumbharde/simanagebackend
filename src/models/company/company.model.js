@@ -85,12 +85,24 @@ const CompanySchema = new Schema({
     notificationsEnabled: { type: Boolean, default: true },
     rechargeReminderDays: { type: Number, default: 3 },
     inactiveSimDays: { type: Number, default: 7 },
+    cctv: {
+      defaultCaptureInterval: { type: Number, default: 30 },
+      defaultImageQuality: { type: Number, default: 80 },
+      defaultResolution: { type: String, default: 'original' },
+      snapshotRetentionDays: { type: Number, default: 90 },
+      notifyCameraOffline: { type: Boolean, default: true },
+      notifyCameraOnline: { type: Boolean, default: true },
+      notifySnapshotFailed: { type: Boolean, default: true },
+      notifyAgentOffline: { type: Boolean, default: true },
+    },
   },
   stats: {
     totalSims: { type: Number, default: 0 },
     activeSims: { type: Number, default: 0 },
     totalRecharges: { type: Number, default: 0 },
     totalSpent: { type: Number, default: 0 },
+    totalCameras: { type: Number, default: 0 },
+    activeCameras: { type: Number, default: 0 },
   },
   // Email change verification fields
   emailChangeOTP: {

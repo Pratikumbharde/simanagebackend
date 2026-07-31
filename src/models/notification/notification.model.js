@@ -15,7 +15,7 @@ const NotificationSchema = new Schema({
   },
   type: {
     type: String,
-    enum: ['recharge_due', 'inactive_sim', 'subscription_expiry', 'system', 'alert', 'info', 'wifi_alert', 'security'],
+    enum: ['recharge_due', 'inactive_sim', 'subscription_expiry', 'system', 'alert', 'info', 'wifi_alert', 'security', 'camera_offline', 'camera_online', 'snapshot_failed', 'agent_offline'],
     required: [true, 'Notification type is required'],
   },
   title: {

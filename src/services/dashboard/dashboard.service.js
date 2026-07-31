@@ -5,6 +5,10 @@ const Company = require('../../models/company/company.model');
 const User = require('../../models/auth/user.model');
 const Subscription = require('../../models/subscription/subscription.model');
 const Notification = require('../../models/notification/notification.model');
+const Camera = require('../../models/cctv/camera.model');
+const Agent = require('../../models/cctv/agent.model');
+const CameraAlert = require('../../models/cctv/cameraAlert.model');
+const { isFeatureEnabled } = require('../../middleware/subscription');
 const mongoose = require('mongoose');
 
 class DashboardService {
@@ -77,6 +81,46 @@ class DashboardService {
       isRead: false,
     });
 
+    // Get CCTV stats (conditionally included based on subscription)
+    let cctvStats = null;
+    try {
+      const featureCheck = await isFeatureEnabled(companyId, 'cctvMonitoring');
+      if (featureCheck.enabled) {
+        const [
+          totalCameras,
+          onlineCameras,
+          offlineCameras,
+          errorCameras,
+          activeAgents,
+          activeAlerts,
+        ] = await Promise.all([
+          Camera.countDocuments({ companyId, isActive: true }),
+          Camera.countDocuments({ companyId, status: 'online', isActive: true }),
+          Camera.countDocuments({ companyId, status: 'offline', isActive: true }),
+          Camera.countDocuments({ companyId, status: 'error', isActive: true }),
+          Agent.countDocuments({ companyId, status: 'active', isActive: true }),
+          CameraAlert.countDocuments({ companyId, status: 'active' }),
+        ]);
+
+        cctvStats = {
+          cameras: {
+            total: totalCameras,
+            online: onlineCameras,
+            offline: offlineCameras,
+            error: errorCameras,
+          },
+          agents: {
+            active: activeAgents,
+          },
+          alerts: {
+            active: activeAlerts,
+          },
+        };
+      }
+    } catch (error) {
+      // CCTV feature not available, skip stats
+    }
+
     return {
       sims: {
         total: totalSims,
@@ -92,6 +136,7 @@ class DashboardService {
       notifications: {
         unread: unreadNotifications,
       },
+      ...(cctvStats && { cctv: cctvStats }),
     };
   }
 
@@ -432,6 +477,11 @@ class DashboardService {
       },
     ]);
 
+    // Platform CCTV statistics
+    const totalPlatformCameras = await Camera.countDocuments({ isActive: true });
+    const totalPlatformAgents = await Agent.countDocuments({ status: 'active', isActive: true });
+    const onlinePlatformCameras = await Camera.countDocuments({ status: 'online', isActive: true });
+
     return {
       platform: {
         totalCompanies,
@@ -465,6 +515,11 @@ class DashboardService {
       recentCompanies,
       monthlyTrend,
       companiesByPlan,
+      cctv: {
+        totalCameras: totalPlatformCameras,
+        onlineCameras: onlinePlatformCameras,
+        totalAgents: totalPlatformAgents,
+      },
     };
   }
 }

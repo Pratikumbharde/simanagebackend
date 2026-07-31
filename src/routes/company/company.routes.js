@@ -122,6 +122,20 @@ router.post('/my/email-change/verify-new', authorize('admin'), companyController
 router.post('/my/email-change/cancel', authorize('admin'), companyController.cancelCompanyEmailChange);
 router.post('/my/email-change/resend', authorize('admin'), companyController.resendCompanyEmailChangeOTP);
 
+// [NEW] CCTV Settings Routes - accessible by admin
+const cctvSettingsValidation = [
+  body('defaultCaptureInterval').optional().isInt({ min: 1, max: 1440 }).withMessage('Capture interval must be 1-1440 minutes'),
+  body('defaultImageQuality').optional().isInt({ min: 1, max: 100 }).withMessage('Image quality must be 1-100'),
+  body('defaultResolution').optional().isIn(['original', '1920x1080', '1280x720', '640x480']).withMessage('Invalid resolution'),
+  body('snapshotRetentionDays').optional().isInt({ min: 7, max: 365 }).withMessage('Retention must be 7-365 days'),
+  body('notifyCameraOffline').optional().isBoolean().withMessage('Must be boolean'),
+  body('notifyCameraOnline').optional().isBoolean().withMessage('Must be boolean'),
+  body('notifySnapshotFailed').optional().isBoolean().withMessage('Must be boolean'),
+  body('notifyAgentOffline').optional().isBoolean().withMessage('Must be boolean'),
+];
+
+router.put('/my/cctv-settings', authorize('admin'), cctvSettingsValidation, validate, companyController.updateCctvSettings);
+
 // [NEW] Get company details by ID - super_admin can access any, admin only their own
 router.get('/details/:companyId', authorize('admin', 'super_admin'), companyController.getCompanyDetailsById);
 

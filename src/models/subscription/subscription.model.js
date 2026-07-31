@@ -43,6 +43,7 @@ const SubscriptionSchema = new Schema({
     excelExport: { type: Boolean, default: true },
     apiAccess: { type: Boolean, default: false },
     prioritySupport: { type: Boolean, default: false },
+    cctvMonitoring: { type: Boolean, default: false },
   },
   limits: {
     maxSims: {
@@ -78,6 +79,8 @@ const SubscriptionSchema = new Schema({
     callLogSync: { type: Boolean, default: true },
     whatsappStatus: { type: Boolean, default: false },
     reports: { type: Boolean, default: true },
+    maxCameras: { type: Number, default: 5 },
+    maxSnapshotDays: { type: Number, default: 30 },
   },
   // Plan type: 'free_trial' for free trial plan, 'paid' for regular plans
   planType: {
