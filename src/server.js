@@ -99,7 +99,9 @@ connectDB().then(async () => {
 
 // Middleware
 app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginOpenerPolicy: false, // Prevent COOP header from blocking cross-origin API access
+  crossOriginEmbedderPolicy: false, // Prevent COEP header from blocking cross-origin resource loading
 }));
 app.use(cors({
   origin: function (origin, callback) {
@@ -134,9 +136,28 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Cache-Control', 'Pragma', 'Origin'],
+  exposedHeaders: ['Content-Length', 'Content-Range', 'Content-Disposition', 'X-Total-Count'],
   optionsSuccessStatus: 200,
 }));
+
+// Fallback CORS middleware — ensures CORS headers are present even on error responses
+// and in case a reverse proxy strips headers from the cors package's response.
+app.use((req, res, next) => {
+  const requestOrigin = req.headers.origin;
+  if (requestOrigin && !res.getHeader('Access-Control-Allow-Origin')) {
+    res.setHeader('Access-Control-Allow-Origin', requestOrigin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Cache-Control, Pragma, Origin');
+    res.setHeader('Access-Control-Max-Age', '86400');
+  }
+  // Handle preflight OPTIONS requests that may not have been caught by the cors middleware
+  if (req.method === 'OPTIONS' && !res.headersSent) {
+    return res.status(200).end();
+  }
+  next();
+});
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -145,8 +166,28 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Static files for uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Static files for uploads (primary: backend/uploads/, fallback: backend/src/uploads/ for legacy files)
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // legacy path — branding logos etc.
+
+// CCTV Agent download — serve installer from uploads/agents or camera-agent/dist
+const agentFileName = 'CCTV Agent Setup 1.0.0.exe';
+const agentDownloadDir = path.join(__dirname, '..', 'uploads', 'agents');
+const agentDistDir = path.join(__dirname, '..', '..', 'camera-agent', 'dist');
+
+app.use('/downloads/agents', (req, res, next) => {
+  const fs = require('fs');
+  const decodedPath = decodeURIComponent(req.path);
+  const uploadsPath = path.join(agentDownloadDir, decodedPath);
+  if (fs.existsSync(uploadsPath)) {
+    return res.sendFile(uploadsPath);
+  }
+  const distPath = path.join(agentDistDir, decodedPath);
+  if (fs.existsSync(distPath)) {
+    return res.sendFile(distPath);
+  }
+  next();
+});
 
 // Health check
 app.get('/health', (req, res) => {
@@ -191,6 +232,43 @@ app.use('/api/cctv/agents', agentRoutes);
 app.use('/api/cctv/snapshots', snapshotRoutes);
 app.use('/api/cctv/alerts', alertRoutes);
 app.use('/api/cctv/dashboard', cctvDashboardRoutes);
+
+// CCTV Agent download info endpoint
+app.get('/api/cctv/agent/download', (req, res) => {
+  const fs = require('fs');
+  const uploadsPath = path.join(agentDownloadDir, agentFileName);
+  const distPath = path.join(agentDistDir, agentFileName);
+
+  let filePath = null;
+  if (fs.existsSync(uploadsPath)) {
+    filePath = uploadsPath;
+  } else if (fs.existsSync(distPath)) {
+    filePath = distPath;
+  }
+
+  if (filePath) {
+    const stats = fs.statSync(filePath);
+    res.json({
+      success: true,
+      data: {
+        name: agentFileName,
+        version: '1.0.0',
+        size: stats.size,
+        downloadUrl: `${req.protocol}://${req.get('host')}/downloads/agents/${encodeURIComponent(agentFileName)}`,
+      },
+    });
+  } else {
+    res.json({
+      success: true,
+      data: {
+        name: agentFileName,
+        version: '1.0.0',
+        size: null,
+        downloadUrl: null,
+      },
+    });
+  }
+});
 
 // 404 handler
 app.use((req, res, next) => {

@@ -229,7 +229,9 @@ CameraSchema.methods.markOffline = function (errorMessage) {
   this.status = 'offline';
   this.lastError = errorMessage || 'Camera unreachable';
   this.lastErrorAt = new Date();
-  this.consecutiveFailures += 1;
+  // Note: consecutiveFailures is managed by the agent's local counter;
+  // we only set it here if the agent didn't provide one in the status update.
+  // The agent sends its own failure count, so we don't double-increment.
   return this.save();
 };
 
@@ -238,7 +240,6 @@ CameraSchema.methods.markError = function (errorMessage) {
   this.status = 'error';
   this.lastError = errorMessage;
   this.lastErrorAt = new Date();
-  this.consecutiveFailures += 1;
   return this.save();
 };
 

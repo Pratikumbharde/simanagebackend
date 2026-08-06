@@ -1,4 +1,6 @@
 const fs = require('fs');
+const path = require('path');
+const mongoose = require('mongoose');
 const Snapshot = require('../../models/cctv/snapshot.model');
 const Camera = require('../../models/cctv/camera.model');
 const Agent = require('../../models/cctv/agent.model');
@@ -7,10 +9,15 @@ const { NotFoundError, ForbiddenError, ValidationError } = require('../../utils/
 const { SnapshotNotFoundError, SnapshotUploadError, CameraNotFoundError } = require('../../utils/cctvErrors');
 const { emitToCompany } = require('../../config/socket');
 
+const UPLOADS_DIR = path.join(__dirname, '../../../uploads');
+
+// Ensure upload directory exists at startup
+fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
 class SnapshotService {
   /**
    * Upload a snapshot from an agent
-   * Stores image data directly in MongoDB instead of Cloudinary
+   * Images are stored on the filesystem in uploads/<_id>.<format>
    */
   async uploadSnapshot(file, metadata, agentId) {
     const { cameraId, capturedAt, fileSize, width, height, format } = metadata;
@@ -35,46 +42,51 @@ class SnapshotService {
         throw new Error('Snapshot file path is missing');
       }
 
-      // Read the image file from disk (multer temp file)
-      const imageBuffer = fs.readFileSync(file.path);
-      const actualFileSize = fs.statSync(file.path).size;
-
       // Determine image format from file extension or mimetype
       const imageFormat = format || (file.mimetype ? file.mimetype.split('/')[1] : 'jpeg') || 'jpeg';
 
-      // Create snapshot document with image data stored in MongoDB
+      // Generate ObjectId upfront so we can name the file before saving
+      const snapshotId = new mongoose.Types.ObjectId();
+
+      // Determine the file extension
+      const ext = imageFormat === 'jpg' ? 'jpeg' : imageFormat;
+      const imageName = `${snapshotId}.${ext}`;
+      const destPath = path.join(UPLOADS_DIR, imageName);
+
+      // Move the multer temp file to its final destination (async, non-blocking)
+      await fs.promises.rename(file.path, destPath);
+
+      // Get the actual file size from the moved file
+      let actualFileSize = fileSize;
+      try {
+        const stats = await fs.promises.stat(destPath);
+        actualFileSize = stats.size;
+      } catch (e) {
+        // Fall back to provided fileSize or 0
+        actualFileSize = fileSize || 0;
+      }
+
+      // Create Snapshot document — single save
       const snapshot = new Snapshot({
+        _id: snapshotId,
         companyId: agent.companyId,
         cameraId,
         agentId,
-        imageData: imageBuffer,
-        imageUrl: null, // Will be set after save when we have the _id
-        thumbnailUrl: null, // No separate thumbnail — frontend uses CSS sizing
-        fileSize: fileSize || actualFileSize,
+        imageName,
+        imageUrl: `/uploads/${imageName}`,
+        thumbnailUrl: null,
+        fileSize: actualFileSize,
         width: width || null,
         height: height || null,
-        format: imageFormat === 'jpg' ? 'jpeg' : imageFormat,
+        format: ext,
         capturedAt: capturedAt ? new Date(capturedAt) : new Date(),
         uploadedAt: new Date(),
         uploadDuration: metadata.uploadStartTime ? Date.now() - metadata.uploadStartTime : null,
-        storagePath: null, // No Cloudinary path
+        storagePath: destPath,
         status: 'uploaded',
       });
 
       await snapshot.save();
-
-      // Now set the imageUrl to the API endpoint for serving this image
-      snapshot.imageUrl = `/api/cctv/snapshots/${snapshot._id}/image`;
-      await snapshot.save();
-
-      // Clean up the temp file from multer
-      try {
-        if (file.path && fs.existsSync(file.path)) {
-          fs.unlinkSync(file.path);
-        }
-      } catch (e) {
-        // Ignore cleanup errors — temp file will be overwritten next time
-      }
 
       // Update camera last snapshot time
       camera.lastSnapshotAt = new Date();
@@ -85,7 +97,6 @@ class SnapshotService {
       await agent.incrementSnapshotCount();
 
       // Emit Socket.IO event for real-time updates
-      // Note: Don't send imageData in the socket event — it's too large
       emitToCompany(agent.companyId.toString(), 'snapshot:new', {
         id: snapshot._id,
         cameraId: snapshot.cameraId,
@@ -111,15 +122,14 @@ class SnapshotService {
         },
       });
 
-      // Return snapshot without imageData (too large for API responses)
-      const result = snapshot.toObject();
-      delete result.imageData;
-      return result;
+      return snapshot.toObject();
     } catch (error) {
-      // Clean up temp file on error
+      // Clean up the already-moved file on error (not the temp file)
       try {
-        if (file && file.path && fs.existsSync(file.path)) {
-          fs.unlinkSync(file.path);
+        const failedExt = (format || 'jpeg') === 'jpg' ? 'jpeg' : (format || 'jpeg');
+        const failedPath = path.join(UPLOADS_DIR, `${snapshotId}.${failedExt}`);
+        if (fs.existsSync(failedPath)) {
+          fs.unlinkSync(failedPath);
         }
       } catch (e) {
         // Ignore cleanup errors
@@ -149,36 +159,6 @@ class SnapshotService {
 
       throw new SnapshotUploadError(`Failed to upload snapshot: ${error.message}`);
     }
-  }
-
-  /**
-   * Get the image binary data for a snapshot
-   * Used by the image-serving endpoint
-   */
-  async getImage(snapshotId, user) {
-    const filter = { _id: snapshotId };
-    if (user.role !== 'super_admin') {
-      filter.companyId = user.companyId;
-    }
-
-    // Explicitly select imageData since it has select: false
-    const snapshot = await Snapshot.findOne(filter).select('+imageData');
-    if (!snapshot) {
-      return null;
-    }
-
-    // If snapshot has imageData (MongoDB-stored), return it
-    if (snapshot.imageData) {
-      return snapshot;
-    }
-
-    // If snapshot only has imageUrl (legacy Cloudinary), return null
-    // The controller will redirect to the Cloudinary URL
-    if (snapshot.imageUrl && snapshot.imageUrl.startsWith('http')) {
-      return { redirectUrl: snapshot.imageUrl };
-    }
-
-    return null;
   }
 
   /**
@@ -313,7 +293,7 @@ class SnapshotService {
 
   /**
    * Delete a snapshot
-   * No Cloudinary call needed — image data is stored in MongoDB and deleted with the document
+   * Removes both the MongoDB document and the physical file from the filesystem
    */
   async deleteSnapshot(snapshotId, user) {
     const filter = { _id: snapshotId };
@@ -328,7 +308,18 @@ class SnapshotService {
       throw new SnapshotNotFoundError();
     }
 
-    // Simply delete the MongoDB document — imageData is stored within it
+    // Delete the physical file from the filesystem
+    if (snapshot.imageName) {
+      try {
+        const filePath = path.join(UPLOADS_DIR, snapshot.imageName);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      } catch (e) {
+        console.error(`[SnapshotService] Failed to delete file ${snapshot.imageName}:`, e.message);
+      }
+    }
+
     await Snapshot.deleteOne({ _id: snapshotId });
 
     return { success: true, message: 'Snapshot deleted successfully' };
@@ -336,7 +327,7 @@ class SnapshotService {
 
   /**
    * Cleanup old snapshots based on company retention period
-   * No Cloudinary cleanup needed — data is in MongoDB
+   * Deletes both MongoDB documents and their corresponding physical files
    */
   async cleanupOldSnapshots(companyId, retentionDays) {
     const cutoffDate = new Date();
@@ -346,21 +337,28 @@ class SnapshotService {
     let failedCount = 0;
     const batchSize = 100;
 
-    // Process in batches to avoid loading imageData (which can be large)
+    // Process in batches — select imageName to delete physical files
     while (true) {
       const batch = await Snapshot.find({
         companyId,
         capturedAt: { $lt: cutoffDate },
-      }).select('_id').limit(batchSize);
+      }).select('_id imageName').limit(batchSize);
 
       if (batch.length === 0) break;
 
       for (const snapshot of batch) {
         try {
+          // Delete the physical file before removing the document
+          if (snapshot.imageName) {
+            const filePath = path.join(UPLOADS_DIR, snapshot.imageName);
+            if (fs.existsSync(filePath)) {
+              fs.unlinkSync(filePath);
+            }
+          }
           await Snapshot.deleteOne({ _id: snapshot._id });
           deletedCount++;
         } catch (error) {
-          console.error(`Failed to delete snapshot ${snapshot._id}:`, error.message);
+          console.error(`[SnapshotService] Failed to delete snapshot ${snapshot._id}:`, error.message);
           failedCount++;
         }
       }

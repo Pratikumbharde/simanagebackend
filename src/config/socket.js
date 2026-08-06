@@ -13,6 +13,9 @@ const initializeSocket = (server) => {
   io = new Server(server, {
     cors: {
       origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
         const allowedOrigins = [
           'https://simtrackr.b100x.in',
           'https://sim-management-rho.vercel.app',
@@ -20,6 +23,10 @@ const initializeSocket = (server) => {
           'http://localhost:3000',
           'http://localhost:5000',
           'http://localhost:8081',
+          'http://localhost:19000',
+          'http://localhost:19001',
+          'http://localhost:19002',
+          'http://localhost:19006',
           process.env.FRONTEND_URL,
         ].filter(Boolean);
 
@@ -28,11 +35,12 @@ const initializeSocket = (server) => {
           return callback(null, true);
         }
 
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'), false);
+        if (allowedOrigins.includes(origin)) {
+          return callback(null, true);
         }
+
+        // Allow any origin for now (you can restrict this in production)
+        return callback(null, true);
       },
       credentials: true,
       methods: ['GET', 'POST'],

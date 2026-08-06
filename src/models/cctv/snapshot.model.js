@@ -4,8 +4,9 @@ const { Schema } = mongoose;
 /**
  * Snapshot Model
  * Represents a captured image from a CCTV camera, uploaded by the Camera Agent.
- * Image data is stored directly in MongoDB (imageData Buffer field).
- * Legacy Cloudinary snapshots still have imageUrl/thumbnailUrl set.
+ * Images are stored on the filesystem in backend/uploads/ as <_id>.<format>.
+ * The `imageName` field stores the filename (e.g. "6a72da506bdcae64c5b29404.jpeg").
+ * Legacy Cloudinary snapshots still have imageUrl/thumbnailUrl set to http URLs.
  */
 const SnapshotSchema = new Schema({
   companyId: {
@@ -25,22 +26,20 @@ const SnapshotSchema = new Schema({
     ref: 'Agent',
     required: [true, 'Agent ID is required'],
   },
-  // Image data stored directly in MongoDB
-  imageData: {
-    type: Buffer,
-    required: false,
-    select: false, // Don't include in queries by default (large field)
+  // Filename of the stored image on the filesystem (e.g. "6a72da506bdcae64c5b29404.jpeg")
+  imageName: {
+    type: String,
+    default: null,
   },
-  // Image details
+  // Image URL — for new snapshots: "/uploads/<_id>.<format>", for legacy: Cloudinary URL
   imageUrl: {
     type: String,
     default: null,
-    // Legacy: Cloudinary URL for old snapshots, API endpoint URL for new ones
   },
   thumbnailUrl: {
     type: String,
     default: null,
-    // Legacy: Cloudinary thumbnail URL. Not used for MongoDB-stored images.
+    // Legacy: Cloudinary thumbnail URL. Not used for filesystem-stored images.
   },
   fileSize: {
     type: Number, // bytes
@@ -56,7 +55,7 @@ const SnapshotSchema = new Schema({
   },
   format: {
     type: String,
-    default: 'jpg',
+    default: 'jpeg',
     enum: ['jpg', 'jpeg', 'png', 'webp'],
   },
   // Metadata
@@ -73,7 +72,7 @@ const SnapshotSchema = new Schema({
     type: Number, // milliseconds
     default: null,
   },
-  // Storage path (legacy: Cloudinary public_id. New: null)
+  // Storage path on the filesystem (e.g. "/path/to/uploads/6a72da506bdcae64c5b29404.jpeg")
   storagePath: {
     type: String,
     default: null,
@@ -92,14 +91,6 @@ const SnapshotSchema = new Schema({
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
-});
-
-// Virtual for API-served image URL
-SnapshotSchema.virtual('imageApiUrl').get(function () {
-  if (this.imageData || this.imageUrl) {
-    return `/api/cctv/snapshots/${this._id}/image`;
-  }
-  return null;
 });
 
 // Indexes

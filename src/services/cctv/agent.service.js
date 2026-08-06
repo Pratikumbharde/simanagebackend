@@ -1,7 +1,6 @@
 const Agent = require('../../models/cctv/agent.model');
 const ActivationCode = require('../../models/cctv/activationCode.model');
 const Camera = require('../../models/cctv/camera.model');
-const Office = require('../../models/cctv/office.model');
 const Company = require('../../models/company/company.model');
 const AgentLog = require('../../models/cctv/agentLog.model');
 const CameraAlert = require('../../models/cctv/cameraAlert.model');
@@ -20,19 +19,10 @@ class AgentService {
       throw new ForbiddenError('Company ID is required');
     }
 
-    // Validate office if provided
-    if (data.officeId) {
-      const office = await Office.findOne({ _id: data.officeId, companyId, isActive: true });
-      if (!office) {
-        throw new ValidationError('Office not found or does not belong to your company');
-      }
-    }
-
     const expiresInHours = data.expiresInHours || 72;
     const maxUses = data.maxUses || 1;
 
     const activationCode = await ActivationCode.generateCode(companyId, {
-      officeId: data.officeId || null,
       expiresInHours,
       maxUses,
       createdBy: user._id,
@@ -75,7 +65,6 @@ class AgentService {
     // Create agent
     const agent = new Agent({
       companyId: code.companyId,
-      officeId: code.officeId,
       name: hostname || `Agent-${machineId.substring(0, 8)}`,
       machineId,
       hostname: hostname || '',
@@ -96,7 +85,7 @@ class AgentService {
     // Generate JWT token for the agent
     const token = await agent.generateAuthToken();
 
-    // Get cameras assigned to this agent (no auto-assignment — cameras must be explicitly assigned)
+    // Get cameras assigned to this agent
     const cameraFilter = {
       companyId: code.companyId,
       isActive: true,
@@ -104,19 +93,10 @@ class AgentService {
       assignedAgentId: agent._id,
     };
 
-    if (code.officeId) {
-      cameraFilter.officeId = code.officeId;
-    }
-
+    // Must use .select('+password') because password has select:false in schema
     const cameras = await Camera.find(cameraFilter)
-      .select('-password')
+      .select('+password')
       .sort({ name: 1 });
-
-    // Update office agent count
-    if (code.officeId) {
-      const officeService = require('./office.service');
-      await officeService.updateAgentCount(code.officeId);
-    }
 
     // Log activation event
     await AgentLog.create({
@@ -141,7 +121,11 @@ class AgentService {
         id: cam._id,
         name: cam.name,
         type: cam.type,
+        ipAddress: cam.ipAddress,
+        rtspPort: cam.rtspPort,
         rtspUrl: cam.rtspUrl,
+        username: cam.username,
+        password: cam.password,
         captureInterval: cam.captureInterval,
         imageQuality: cam.imageQuality,
         resolution: cam.resolution,
@@ -210,21 +194,20 @@ class AgentService {
       assignedAgentId: agent._id,
     };
 
-    // If agent has an office, get cameras for that office
-    if (agent.officeId) {
-      filter.officeId = agent.officeId;
-    }
-
+    // Must use .select('+password') because password has select:false in schema
     const cameras = await Camera.find(filter)
-      .select('-password')
+      .select('+password')
       .sort({ name: 1 });
 
     return cameras.map(cam => ({
       id: cam._id,
       name: cam.name,
       type: cam.type,
+      ipAddress: cam.ipAddress,
+      rtspPort: cam.rtspPort,
       rtspUrl: cam.rtspUrl,
       username: cam.username,
+      password: cam.password,
       captureInterval: cam.captureInterval,
       imageQuality: cam.imageQuality,
       resolution: cam.resolution,
@@ -241,6 +224,7 @@ class AgentService {
     }
 
     const results = [];
+    const skipped = [];
 
     for (const camData of camerasData) {
       const camera = await Camera.findOne({
@@ -249,7 +233,11 @@ class AgentService {
         isActive: true,
       });
 
-      if (!camera) continue;
+      if (!camera) {
+        // Camera not found or doesn't belong to this agent's company
+        skipped.push({ cameraId: camData.cameraId, reason: 'not_found' });
+        continue;
+      }
 
       const previousStatus = camera.status;
 
@@ -311,7 +299,7 @@ class AgentService {
       }
     }
 
-    return results;
+    return { updated: results, skipped };
   }
 
   /**
@@ -323,7 +311,6 @@ class AgentService {
       limit = 10,
       search,
       status,
-      officeId,
       sortBy = 'createdAt',
       sortOrder = 'desc',
     } = query;
@@ -338,7 +325,6 @@ class AgentService {
     }
 
     if (status) filter.status = status;
-    if (officeId) filter.officeId = officeId;
 
     // Search
     if (search) {
@@ -354,7 +340,6 @@ class AgentService {
     const sort = { [sortBy]: sortOrder === 'desc' ? -1 : 1 };
 
     const agents = await Agent.find(filter)
-      .populate('officeId', 'name address.city')
       .populate('createdBy', 'name email')
       .select('-token -tokenExpires')
       .skip(skip)
@@ -386,7 +371,6 @@ class AgentService {
     }
 
     const agent = await Agent.findOne(filter)
-      .populate('officeId', 'name address')
       .populate('createdBy', 'name email')
       .select('-token -tokenExpires');
 
@@ -422,12 +406,6 @@ class AgentService {
       if (code) {
         await code.revoke();
       }
-    }
-
-    // Update office agent count
-    if (agent.officeId) {
-      const officeService = require('./office.service');
-      await officeService.updateAgentCount(agent.officeId);
     }
 
     // Log revocation

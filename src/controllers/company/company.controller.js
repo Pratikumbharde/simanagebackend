@@ -39,7 +39,7 @@ class CompanyController {
         return successResponse(res, { exists: false, message: 'Email is required' });
       }
 
-      const User = require('../../models/user/user.model');
+      const User = require('../../models/auth/user.model');
       const existingUser = await User.findOne({ email: email.trim().toLowerCase() });
 
       return successResponse(res, {

@@ -10,6 +10,10 @@ const validate = (req, res, next) => {
       message: error.msg,
     }));
 
+    console.error('[Validation] FAILED - Method:', req.method, 'Path:', req.originalUrl);
+    console.error('[Validation] Request body:', JSON.stringify(req.body, null, 2));
+    console.error('[Validation] Errors:', JSON.stringify(formattedErrors, null, 2));
+
     return res.status(400).json({
       success: false,
       message: 'Validation failed',

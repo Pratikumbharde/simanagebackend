@@ -8,7 +8,7 @@ const { snapshotQueryValidation, uploadSnapshotValidation } = require('../../val
 
 // ==================== Agent Auth Routes ====================
 
-// Upload snapshot (agent auth)
+// Upload (Agent)
 router.post(
   '/upload',
   agentAuth,
@@ -18,12 +18,16 @@ router.post(
   snapshotController.upload
 );
 
-// ==================== User Auth Routes ====================
+// Image route FIRST (NO authenticate)
+router.get(
+  '/:id/image',
+  snapshotController.getImage
+);
 
-// All following routes require authentication
+// Everything below requires authentication
 router.use(authenticate);
 
-// Get all snapshots (paginated)
+// Get all snapshots
 router.get(
   '/',
   checkCompanyAccess,
@@ -32,14 +36,14 @@ router.get(
   snapshotController.getAll
 );
 
-// Get latest snapshot for a camera
+// Latest snapshot
 router.get(
   '/latest/:cameraId',
   checkCompanyAccess,
   snapshotController.getLatest
 );
 
-// Get snapshots by camera (paginated)
+// Camera snapshots
 router.get(
   '/camera/:cameraId',
   checkCompanyAccess,
@@ -48,21 +52,14 @@ router.get(
   snapshotController.getByCamera
 );
 
-// Serve snapshot image (binary data)
-// Supports ?token=xxx query parameter for img tags that can't send Authorization headers
-router.get(
-  '/:id/image',
-  snapshotController.getImage
-);
-
-// Get snapshot by ID
+// Snapshot by ID
 router.get(
   '/:id',
   checkCompanyAccess,
   snapshotController.getById
 );
 
-// Delete snapshot (admin only)
+// Delete
 router.delete(
   '/:id',
   authorize('admin', 'super_admin'),

@@ -60,7 +60,7 @@ module.exports = {
     },
   },
   cctv: {
-    // Note: Images are now stored directly in MongoDB (imageData Buffer field)
+    // Images stored on filesystem in backend/uploads/ (served via Express static)
     // cloudinaryFolder is no longer used for CCTV snapshots
     snapshotMaxSizeMB: parseInt(process.env.SNAPSHOT_MAX_SIZE_MB) || 10,
     defaultSnapshotRetentionDays: parseInt(process.env.DEFAULT_SNAPSHOT_RETENTION_DAYS) || 30,

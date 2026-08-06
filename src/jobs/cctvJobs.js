@@ -5,6 +5,7 @@ const CameraAlert = require('../models/cctv/cameraAlert.model');
 const Company = require('../models/company/company.model');
 const { emitToCompany } = require('../config/socket');
 const notificationHelper = require('../utils/notificationHelper');
+const { cleanupOrphanedFiles } = require('../utils/cctvCleanup');
 
 class CctvCronService {
   constructor(cronService) {
@@ -42,6 +43,14 @@ class CctvCronService {
         }
 
         logger.info(`[CCTV] Snapshot cleanup completed: ${totalDeleted} deleted, ${totalFailed} failures`);
+
+        // Also clean up orphaned files (files on disk with no corresponding DB document)
+        try {
+          const orphanResult = await cleanupOrphanedFiles();
+          logger.info(`[CCTV] Orphan file cleanup: ${orphanResult.orphanedCount} files removed`);
+        } catch (orphanError) {
+          logger.error('[CCTV] Orphan file cleanup failed:', orphanError.message);
+        }
       } catch (error) {
         logger.error('[CCTV] Snapshot cleanup job failed:', error);
       }

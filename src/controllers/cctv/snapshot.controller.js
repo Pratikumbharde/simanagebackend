@@ -7,7 +7,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Multer config for snapshot uploads
-const UPLOAD_DIR = path.join(__dirname, '../../uploads/cctv');
+const UPLOAD_DIR = path.join(__dirname, '../../../uploads');
 
 // Ensure upload directory exists at startup
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
@@ -17,8 +17,8 @@ const storage = multer.diskStorage({
     cb(null, UPLOAD_DIR);
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, 'snapshot-' + uniqueSuffix + path.extname(file.originalname));
+    // Use temp- prefix so the service can rename it to the final name
+    cb(null, 'temp-' + Date.now() + '-' + Math.round(Math.random() * 1e9) + path.extname(file.originalname));
   },
 });
 
@@ -67,11 +67,6 @@ class SnapshotController {
         metadata: { cameraId: req.body.cameraId, fileSize: snapshot.fileSize },
         req,
       });
-
-      // Clean up temp file
-      if (req.file && req.file.path && fs.existsSync(req.file.path)) {
-        try { fs.unlinkSync(req.file.path); } catch (e) { /* ignore */ }
-      }
 
       return successResponse(res, snapshot, 'Snapshot uploaded successfully', 201);
     } catch (error) {
@@ -132,58 +127,32 @@ class SnapshotController {
   }
 
   /**
-   * Serve snapshot image binary data
-   * Supports both authenticated requests (Authorization header)
-   * and token query parameter for img tags: /api/cctv/snapshots/:id/image?token=xxx
+   * Redirect to the snapshot image URL
+   * Since images are now served via Express static from /uploads/,
+   * this route redirects to the static file URL.
+   * Backward compatible: old Cloudinary URLs still redirect correctly.
+   * No auth needed — static files are publicly served.
    */
   async getImage(req, res, next) {
     try {
-      // Determine the user for authorization
-      // Supports: 1) Normal auth (req.user set by authenticate middleware)
-      //           2) Token query parameter (for img src tags that can't send headers)
-      let user = req.user;
+      const Snapshot = require('../../models/cctv/snapshot.model');
+      const snapshot = await Snapshot.findById(req.params.id);
 
-      if (!user && req.query.token) {
-        // Verify the token from query parameter
-        try {
-          const jwt = require('jsonwebtoken');
-          const config = require('../../config');
-          const decoded = jwt.verify(req.query.token, config.jwt.secret);
-          const User = require('../../models/user/user.model');
-          const foundUser = await User.findById(decoded.id || decoded._id);
-          if (foundUser) {
-            user = { _id: foundUser._id, role: foundUser.role, companyId: foundUser.companyId };
-          }
-        } catch (e) {
-          return res.status(401).json({ success: false, message: 'Invalid or expired token' });
-        }
+      if (!snapshot) {
+        return res.status(404).json({ success: false, message: 'Snapshot not found' });
       }
 
-      if (!user) {
-        return res.status(401).json({ success: false, message: 'Authentication required' });
+      // New filesystem-stored images: redirect to /uploads/<imageName>
+      if (snapshot.imageUrl && snapshot.imageUrl.startsWith('/uploads/')) {
+        return res.redirect(snapshot.imageUrl);
       }
 
-      const result = await snapshotService.getImage(req.params.id, user);
-
-      if (!result) {
-        return res.status(404).json({ success: false, message: 'Snapshot image not found' });
+      // Legacy Cloudinary URLs: redirect to the external URL
+      if (snapshot.imageUrl && snapshot.imageUrl.startsWith('http')) {
+        return res.redirect(snapshot.imageUrl);
       }
 
-      // If this is a legacy Cloudinary snapshot, redirect to the Cloudinary URL
-      if (result.redirectUrl) {
-        return res.redirect(result.redirectUrl);
-      }
-
-      // Serve the binary image data from MongoDB
-      const snapshot = result;
-      const contentType = snapshot.format === 'png' ? 'image/png'
-        : snapshot.format === 'webp' ? 'image/webp'
-        : 'image/jpeg';
-
-      res.set('Content-Type', contentType);
-      res.set('Cache-Control', 'public, max-age=86400'); // Cache for 24 hours
-      res.set('Content-Length', snapshot.imageData.length);
-      return res.send(snapshot.imageData);
+      return res.status(404).json({ success: false, message: 'Snapshot image not found' });
     } catch (error) {
       next(error);
     }

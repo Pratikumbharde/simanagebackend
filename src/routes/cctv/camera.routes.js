@@ -3,7 +3,7 @@ const router = express.Router();
 const cameraController = require('../../controllers/cctv/camera.controller');
 const { authenticate, authorize, checkCompanyAccess } = require('../../middleware/auth');
 const { validate } = require('../../middleware/validate');
-const { createCameraValidation, updateCameraValidation } = require('../../validations/cctv/cctv.validation');
+const { testConnectionValidation, createCameraValidation, updateCameraValidation } = require('../../validations/cctv/cctv.validation');
 const { checkSubscriptionFeature } = require('../../middleware/subscription');
 
 // All routes require authentication
@@ -14,6 +14,16 @@ router.get(
   '/stats',
   checkCompanyAccess,
   cameraController.getStats
+);
+
+// Test camera connection (must be before /:id)
+router.post(
+  '/test-connection',
+  authorize('admin', 'super_admin'),
+  checkCompanyAccess,
+  testConnectionValidation,
+  validate,
+  cameraController.testConnection
 );
 
 // Camera CRUD routes

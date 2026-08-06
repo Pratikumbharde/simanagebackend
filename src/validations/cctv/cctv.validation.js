@@ -10,47 +10,47 @@ const createOfficeValidation = [
     .isLength({ max: 100 })
     .withMessage('Office name cannot exceed 100 characters'),
   body('address.street')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 200 })
     .withMessage('Street cannot exceed 200 characters'),
   body('address.city')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('City cannot exceed 100 characters'),
   body('address.state')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('State cannot exceed 100 characters'),
   body('address.country')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('Country cannot exceed 100 characters'),
   body('address.zipCode')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 20 })
     .withMessage('Zip code cannot exceed 20 characters'),
   body('contactPerson')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('Contact person cannot exceed 100 characters'),
   body('contactPhone')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .matches(/^\+?\d{10,15}$/)
     .withMessage('Invalid phone number format (10-15 digits)'),
   body('timezone')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 50 })
     .withMessage('Timezone cannot exceed 50 characters'),
   body('companyId')
-    .optional()
+    .optional({ values: 'falsy' })
     .isMongoId()
     .withMessage('Invalid company ID'),
 ];
@@ -60,59 +60,87 @@ const updateOfficeValidation = [
     .isMongoId()
     .withMessage('Invalid office ID'),
   body('name')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .notEmpty()
     .withMessage('Office name cannot be empty')
     .isLength({ max: 100 })
     .withMessage('Office name cannot exceed 100 characters'),
   body('address.street')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 200 })
     .withMessage('Street cannot exceed 200 characters'),
   body('address.city')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('City cannot exceed 100 characters'),
   body('address.state')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('State cannot exceed 100 characters'),
   body('address.country')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('Country cannot exceed 100 characters'),
   body('address.zipCode')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 20 })
     .withMessage('Zip code cannot exceed 20 characters'),
   body('contactPerson')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('Contact person cannot exceed 100 characters'),
   body('contactPhone')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .matches(/^\+?\d{10,15}$/)
     .withMessage('Invalid phone number format (10-15 digits)'),
   body('timezone')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 50 })
     .withMessage('Timezone cannot exceed 50 characters'),
   body('isActive')
-    .optional()
+    .optional({ values: 'falsy' })
     .isBoolean()
     .withMessage('isActive must be a boolean'),
 ];
 
 // ==================== Camera Validations ====================
+
+const testConnectionValidation = [
+  body('ipAddress')
+    .trim()
+    .notEmpty()
+    .withMessage('IP address is required')
+    .matches(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)$/)
+    .withMessage('Invalid IP address or hostname'),
+  body('rtspPort')
+    .optional({ values: 'falsy' })
+    .isInt({ min: 1, max: 65535 })
+    .withMessage('RTSP port must be between 1 and 65535'),
+  body('rtspUrl')
+    .optional({ values: 'falsy' })
+    .trim()
+    .matches(/^rtsp:\/\//i)
+    .withMessage('RTSP URL must start with rtsp://'),
+  body('username')
+    .optional({ values: 'falsy' })
+    .trim()
+    .isLength({ max: 100 })
+    .withMessage('Username cannot exceed 100 characters'),
+  body('password')
+    .optional({ values: 'falsy' })
+    .trim()
+    .isLength({ max: 100 })
+    .withMessage('Password cannot exceed 100 characters'),
+];
 
 const createCameraValidation = [
   body('name')
@@ -122,18 +150,14 @@ const createCameraValidation = [
     .isLength({ max: 100 })
     .withMessage('Camera name cannot exceed 100 characters'),
   body('description')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 500 })
     .withMessage('Description cannot exceed 500 characters'),
   body('type')
-    .optional()
+    .optional({ values: 'falsy' })
     .isIn(['ip_camera', 'dvr_nvr'])
     .withMessage('Type must be ip_camera or dvr_nvr'),
-  body('officeId')
-    .optional()
-    .isMongoId()
-    .withMessage('Invalid office ID'),
   body('ipAddress')
     .trim()
     .notEmpty()
@@ -141,7 +165,7 @@ const createCameraValidation = [
     .matches(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)$/)
     .withMessage('Invalid IP address or hostname'),
   body('rtspPort')
-    .optional()
+    .optional({ values: 'falsy' })
     .isInt({ min: 1, max: 65535 })
     .withMessage('RTSP port must be between 1 and 65535'),
   body('rtspUrl')
@@ -151,29 +175,29 @@ const createCameraValidation = [
     .matches(/^rtsp:\/\//i)
     .withMessage('RTSP URL must start with rtsp://'),
   body('username')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('Username cannot exceed 100 characters'),
   body('password')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('Password cannot exceed 100 characters'),
   body('captureInterval')
-    .optional()
+    .optional({ values: 'falsy' })
     .isInt({ min: 1, max: 1440 })
     .withMessage('Capture interval must be between 1 and 1440 minutes'),
   body('imageQuality')
-    .optional()
+    .optional({ values: 'falsy' })
     .isInt({ min: 1, max: 100 })
     .withMessage('Image quality must be between 1 and 100'),
   body('resolution')
-    .optional()
+    .optional({ values: 'falsy' })
     .isIn(['original', '1920x1080', '1280x720', '640x480'])
     .withMessage('Invalid resolution value'),
   body('companyId')
-    .optional()
+    .optional({ values: 'falsy' })
     .isMongoId()
     .withMessage('Invalid company ID'),
   body('assignedAgentId')
@@ -188,63 +212,59 @@ const updateCameraValidation = [
     .isMongoId()
     .withMessage('Invalid camera ID'),
   body('name')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .notEmpty()
     .withMessage('Camera name cannot be empty')
     .isLength({ max: 100 })
     .withMessage('Camera name cannot exceed 100 characters'),
   body('description')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 500 })
     .withMessage('Description cannot exceed 500 characters'),
   body('type')
-    .optional()
+    .optional({ values: 'falsy' })
     .isIn(['ip_camera', 'dvr_nvr'])
     .withMessage('Type must be ip_camera or dvr_nvr'),
-  body('officeId')
-    .optional()
-    .isMongoId()
-    .withMessage('Invalid office ID'),
   body('ipAddress')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .matches(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)$/)
     .withMessage('Invalid IP address or hostname'),
   body('rtspPort')
-    .optional()
+    .optional({ values: 'falsy' })
     .isInt({ min: 1, max: 65535 })
     .withMessage('RTSP port must be between 1 and 65535'),
   body('rtspUrl')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .matches(/^rtsp:\/\//i)
     .withMessage('RTSP URL must start with rtsp://'),
   body('username')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('Username cannot exceed 100 characters'),
   body('password')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ max: 100 })
     .withMessage('Password cannot exceed 100 characters'),
   body('captureInterval')
-    .optional()
+    .optional({ values: 'falsy' })
     .isInt({ min: 1, max: 1440 })
     .withMessage('Capture interval must be between 1 and 1440 minutes'),
   body('imageQuality')
-    .optional()
+    .optional({ values: 'falsy' })
     .isInt({ min: 1, max: 100 })
     .withMessage('Image quality must be between 1 and 100'),
   body('resolution')
-    .optional()
+    .optional({ values: 'falsy' })
     .isIn(['original', '1920x1080', '1280x720', '640x480'])
     .withMessage('Invalid resolution value'),
   body('isActive')
-    .optional()
+    .optional({ values: 'falsy' })
     .isBoolean()
     .withMessage('isActive must be a boolean'),
   body('assignedAgentId')
@@ -256,10 +276,6 @@ const updateCameraValidation = [
 // ==================== Agent Validations ====================
 
 const generateActivationCodeValidation = [
-  body('officeId')
-    .optional()
-    .isMongoId()
-    .withMessage('Invalid office ID'),
   body('expiresInHours')
     .optional()
     .isInt({ min: 1, max: 168 })
@@ -452,6 +468,7 @@ module.exports = {
   createOfficeValidation,
   updateOfficeValidation,
   // Camera
+  testConnectionValidation,
   createCameraValidation,
   updateCameraValidation,
   // Agent

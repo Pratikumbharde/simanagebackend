@@ -3,3 +3,10 @@ node_modules/
 dist/
 build/
 backend/logs/
+
+# Uploaded snapshot images — runtime data, not source code
+uploads/*.jpg
+uploads/*.jpeg
+uploads/*.png
+uploads/*.webp
+uploads/temp-*

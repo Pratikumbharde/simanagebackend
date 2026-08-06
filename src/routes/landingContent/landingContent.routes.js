@@ -11,7 +11,7 @@ const { validate } = require('../../middleware/validate');
 // Multer configuration for logo upload
 const logoStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, '../../uploads/branding');
+    const uploadDir = path.join(__dirname, '../../../uploads/branding');
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
